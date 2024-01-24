@@ -1,7 +1,6 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QFormLayout, QLabel, QPushButton, QGridLayout
 
-from classes.Period import Period
 from components import LineEdit, CustomTableView
 from components.message import Notifier
 from models.period import PeriodModel
@@ -84,13 +83,14 @@ class PeriodManagementView(QWidget):
             self.open_header_widget.setHidden(True)
 
     def open_period(self):
-        p = Period(
-            period=self.period_name_edit.text(),
-            start_date=self.start_date_edit.text(),
-            end_date=self.end_date_edit.text()
-        )
+        # p = Period(
+        #     period=self.period_name_edit.text(),
+        #     start_date=self.start_date_edit.text(),
+        #     end_date=self.end_date_edit.text()
+        # )
+        pass
 
-        self.period_model.start_period(p)
+        # self.period_model.start_period(p)
 
     def close_period(self):
         self.period_model.close_period()

@@ -1,12 +1,11 @@
-# \\\\\\\\\\\\\\\\\\\\\ This a UI implementation of a login window using PySide6 \\\\\\\\\\\\
-# from crypt import crypt, mksalt
-
 from PySide6.QtCore import QSize, Qt, Signal, QRect
 from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QLabel, QFormLayout, QSplitter, QPushButton, QLineEdit, QVBoxLayout, \
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QLabel, QFormLayout, QLineEdit, QVBoxLayout, \
     QFrame
 
 import qtawesome as qta
+
+from components import ButtonsWidget, PushButton
 from components.message import Notifier
 
 from models.users import UsersModel
@@ -66,17 +65,18 @@ class LoginWindow(QFrame):
         side_lbl_layout.addStretch()
         side_lbl_layout.addLayout(contacts_form)
         side_lbl_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.login_btn = QPushButton("Login")
+        self.login_btn = PushButton(self.authenticate,
+                                    "Login",
+                                    qta.icon("ph.lock-key-open", color="#08ADCF"),
+                                    PushButton.ButtonType.INFO)
 
         self.username_edit = QLineEdit()
         self.username_edit.setPlaceholderText("LIB/9/99999")
         self.password_edit = QLineEdit()
         self.password_edit.setEchoMode(QLineEdit.EchoMode.Password)
 
-        btns_widget = QWidget()
-        btns_layout = QHBoxLayout(btns_widget)
-        btns_layout.addWidget(QSplitter())
-        btns_layout.addWidget(self.login_btn)
+        btns_widget = ButtonsWidget()
+        btns_widget.add_button(self.login_btn)
 
         title_lbl = QLabel(settings.get_settings("institution", "The Academic Citadel"))
         title_lbl.setObjectName("title-lbl")
@@ -111,7 +111,6 @@ class LoginWindow(QFrame):
 
     def event_listener(self):
         self.username_edit.textChanged.connect(self.username_to_upper)
-        self.login_btn.clicked.connect(self.authenticate)
 
     def authenticate(self):
         username = self.username_edit.text()

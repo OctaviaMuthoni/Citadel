@@ -17,7 +17,7 @@ from datetime import datetime
 
 from PySide6.QtSql import QSqlTableModel, QSqlQuery
 
-from classes.Period import Period
+# from classes.Period import Period
 from models.members import MembersModel
 from src.database import db
 
@@ -29,7 +29,7 @@ class PeriodModel(QSqlTableModel):
         self.setTable("periods")
         self.members = MembersModel()
 
-    def start_period(self, period: Period):
+    def start_period(self, period):
         qry = QSqlQuery()
         qry.prepare(f"""INSERT INTO {self.tableName()} 
                         (period, start_date, end_date, status)
@@ -73,12 +73,7 @@ class PeriodModel(QSqlTableModel):
         qry.bindValue(":open", "open")
 
         if qry.exec() and qry.next():
-            open_period = Period(**{
-                'period': qry.value('period'),
-                'start_date': qry.value('start_date'),
-                'end_date': qry.value('end_date'),
-                'status': qry.value('status')
-            })
+            open_period = ""
 
             return open_period
         else:

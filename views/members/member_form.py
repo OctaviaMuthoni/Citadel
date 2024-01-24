@@ -1,19 +1,17 @@
-from PySide6.QtCore import QSize, Signal
+from PySide6.QtCore import QSize
 from PySide6.QtWidgets import QFrame, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QRadioButton, QButtonGroup, \
     QGroupBox, QCheckBox, QFormLayout, QToolBar, QComboBox
 
 import qtawesome as qta
 
-from classes.member import Member, Gender
 from components import LineEdit, ImageComponent
+from models.members import Member, Gender
 
 
-class CreateMemberView(QFrame):
-
-    memberChangedSignal = Signal(object)
+class MembersForm(QFrame):
 
     def __init__(self, parent):
-        super(CreateMemberView, self).__init__(parent=parent)
+        super(MembersForm, self).__init__(parent=parent)
 
         self.member = Member()
 

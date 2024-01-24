@@ -32,14 +32,14 @@ QFormLayout QLineEdit::clear-button {
     height: 16px;
 }
 
-QPushButton, QMenu {
+QMenu {
     padding: 5px 15px;
     border: 2px solid #5705add3;
     border-radius: 5px;
     color: #05add3;
 }
 
-QPushButton:hover, #login QPushButton:focus {
+Q {
     background-color: #2305add3;
     border: 2px solid #05adda;
 }
@@ -204,10 +204,7 @@ QGraphicsTextItem {
     color: #F71821;
 }
 
-#info {
-    background: #327AF7;
-    border-radius: 10px;
-}
+
 
 #info QLabel {
     color: #ffffff;
@@ -234,4 +231,10 @@ QGraphicsTextItem {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+#notifier {
+    background: #f2f2f2;
+    border: 1px solid red;
+    border-radius: 10px;
 }
