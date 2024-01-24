@@ -11,12 +11,12 @@ config_options = {
 }
 
 
-name = config_options['name']
-host = config_options['host']
-port = config_options['port']
-passwd = config_options['passwd']
-user = config_options['user']
-driver = config_options['driver']
+name = "citadel"
+host = "127.0.0.1"
+port = 3306
+passwd = "Admin@Citadel12345"
+user = "admin"
+driver = "QMYSQL"
 
 db = QSqlDatabase.addDatabase(driver)
 
@@ -32,6 +32,8 @@ if db.isDriverAvailable(driver):
         db.setPassword(passwd)
 
 db.open()
+print(db.isOpen(), db.lastError())
+print(db.drivers())
 
 
 

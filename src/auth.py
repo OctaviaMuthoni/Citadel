@@ -18,6 +18,3 @@ def hash_password(password):
     key = kdf.derive(password)
 
     return key.hex()
-
-
-print(hash_password("admin"))

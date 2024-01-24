@@ -24,7 +24,7 @@ class MenuButton(QPushButton):
 
         self.setIconSize(QSize(30, 30))
         self.setObjectName("menu-btn")
-
+        self.setFixedWidth(300)
         self.clicked.connect(self.menu_button_clicked)
 
     def menu_button_clicked(self):
@@ -167,7 +167,7 @@ class Library(QWidget):
 
         side_menu = QWidget()
         side_menu_layout = QVBoxLayout(side_menu)
-        side_menu.setMinimumWidth(250)
+        side_menu.setFixedWidth(220)
         side_menu.setObjectName("side-menu")
 
         self.brand_lbl = QLabel("The Citadel")

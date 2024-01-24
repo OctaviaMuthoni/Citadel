@@ -13,7 +13,7 @@ from src import auth
 
 
 class LoginWindow(QFrame):
-    loginSignal = Signal(object)
+    loginSignal = Signal(str)
 
     def __init__(self, settings):
         super(LoginWindow, self).__init__()
@@ -113,15 +113,16 @@ class LoginWindow(QFrame):
         self.username_edit.textChanged.connect(self.username_to_upper)
 
     def authenticate(self):
-        username = self.username_edit.text()
-        password = self.password_edit.text()
-
-        user = self.user_model.get_user(username)
-
-        if user and user.password == auth.hash_password(password):
-            self.loginSignal.emit(user)
-        else:
-            self.notifier.configure_notifier("error message")
+        # username = self.username_edit.text()
+        # password = self.password_edit.text()
+        #
+        # user = self.user_model.get_user(username)
+        #
+        # if user and user.password == auth.hash_password(password):
+        #     self.loginSignal.emit(user)
+        # else:
+        #     self.notifier.configure_notifier("error message")
+        self.loginSignal.emit("user")
 
     def username_to_upper(self, username):
         self.username_edit.setText(username.upper())

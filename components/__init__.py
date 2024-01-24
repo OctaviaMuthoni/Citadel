@@ -8,4 +8,4 @@ from .pushbutton import PushButton
 from .buttons_widget import ButtonsWidget
 
 # A nested window standard layout component
-from .secondary_window import SubWindow
+from .sub_window import SubWindow

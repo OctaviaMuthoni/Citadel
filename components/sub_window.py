@@ -15,7 +15,7 @@ from core import Colors, ICON_SIZE
 
 
 class SubWindow(QFrame):
-    def __init__(self, title="Sub Window"):
+    def __init__(self, content_widget: QWidget, title: str = "Sub Window"):
         super(SubWindow, self).__init__()
 
         layout = QVBoxLayout(self)
@@ -38,13 +38,6 @@ class SubWindow(QFrame):
         # ---------------------------- End header creation -------------------------------------------------
 
         layout.addWidget(header)
+        layout.addWidget(content_widget)
 
         self.setObjectName("sub_window")
-
-    # method to set the content widget
-    def set_content_widget(self, content_widget: QWidget):
-        self.layout().addWidget(content_widget)
-
-
-
-

@@ -15,28 +15,30 @@ class MembersForm(QFrame):
 
         self.member = Member()
 
-        self.actions_tool_bar = QToolBar()
-        self.actions_tool_bar.setObjectName("sbrand")
-        self.actions_tool_bar.setIconSize(QSize(30, 30))
-        self.actions_tool_bar.addAction(qta.icon("ph.arrow-left",
-                                                 color="teal"),
-                                        "Back",
-                                        lambda: self.parent().setCurrentIndex(0))
-        self.actions_tool_bar.addWidget(QLabel("Add Member"))
-
         self.profile_image_upload = ImageComponent()
 
-        self.name_edit = LineEdit("Fullname:", "Jane Doe Smith")
-        self.id_edit = LineEdit("ID/Adm No./Reg No./Emp No.:", "N11/3/0416/014")
-        self.email = LineEdit("Email:", "jane@doemailbox.com")
-        self.phone = LineEdit("Phone:", "+254 700 000 000")
-        self.residence = LineEdit("Residence:", "Cedar Ridge Hostels Rm. 14")
+        self.f_name_edit = LineEdit("Firstname:", "Jane")
+        self.m_name_edit = LineEdit("Middlename:", "Doe")
+        self.l_name_edit = LineEdit("Lastname:", "Smith")
 
-        self.member_type_combo = QComboBox()
-        self.member_type_combo.addItems([
-            "Student",
-            "Teacher",
-            "Other Staff"
+        self.identification_type_combo = QComboBox()
+        self.identification_type_combo.addItems([
+            "National ID card",
+            "Student ID card",
+            "Employment card"
+        ])
+        self.id_edit = LineEdit("ID/Adm No./Reg No./Emp No.:", "N11/3/0416/014")
+
+        self.email_edit = LineEdit("Email:", "jane@doemailbox.com")
+        self.phone_edit = LineEdit("Phone:", "+254 700 000 000")
+        self.current_residence = LineEdit("Current residence:", "Cedar Ridge Hostels Rm. 14")
+        self.permanent_address = LineEdit("Permanent address:", "126, Tom Mboya street")
+
+        self.subscription_combo = QComboBox()
+        self.subscription_combo.addItems([
+            "Freemium Limited",
+            "Freemium Unlimited",
+            "Premium"
         ])
 
         self.male = QRadioButton("Male")
@@ -56,7 +58,19 @@ class MembersForm(QFrame):
         self.rules_print_btn.setIcon(qta.icon("ph.printer-light"))
         self.rules_print_btn.setIconSize(QSize(25, 25))
 
+        self.activation_fee_edit = LineEdit("Subscription fee", "0.00")
+        self.borrowing_limit_edit = LineEdit("Limit", "0")
+
         self.create_member_btn = QPushButton("Add Member")
+
+        name_layout = QHBoxLayout()
+        name_layout.addWidget(self.f_name_edit)
+        name_layout.addWidget(self.m_name_edit)
+        name_layout.addWidget(self.l_name_edit)
+
+        identification_layout = QHBoxLayout()
+        identification_layout.addWidget(self.identification_type_combo)
+        identification_layout.addWidget(self.id_edit)
 
         gender_layout = QHBoxLayout(self.gender_group)
         gender_layout.setSpacing(50)
@@ -69,20 +83,24 @@ class MembersForm(QFrame):
         personal_layout.addWidget(self.gender_group)
 
         address_layout = QHBoxLayout()
-        address_layout.addWidget(self.phone)
-        address_layout.addWidget(self.residence)
+        address_layout.addWidget(self.current_residence)
+        address_layout.addWidget(self.permanent_address)
 
-        member_type_layout = QHBoxLayout()
-        member_type_layout.addWidget(self.id_edit)
-        member_type_layout.addWidget(QLabel("Member type:"))
-        member_type_layout.addWidget(self.member_type_combo)
+        contacts_layout = QHBoxLayout()
+        contacts_layout.addWidget(self.phone_edit)
+        contacts_layout.addWidget(self.email_edit)
+
+        subscription_layout = QHBoxLayout()
+        subscription_layout.addWidget(self.subscription_combo)
+        subscription_layout.addStretch()
 
         member_form_layout = QFormLayout()
-        member_form_layout.addWidget(self.name_edit)
-        member_form_layout.addRow(member_type_layout)
+        member_form_layout.addRow(name_layout)
+        member_form_layout.addRow(identification_layout)
         member_form_layout.addRow(personal_layout)
-        member_form_layout.addWidget(self.email)
+        member_form_layout.addRow(contacts_layout)
         member_form_layout.addRow(address_layout)
+        member_form_layout.addRow(subscription_layout)
 
         form_layout = QHBoxLayout()
         form_layout.addWidget(self.profile_image_upload)
@@ -99,7 +117,6 @@ class MembersForm(QFrame):
         declaration_layout.addWidget(self.rules_print_btn)
 
         layout = QVBoxLayout(self)
-        layout.addWidget(self.actions_tool_bar)
         layout.addLayout(form_layout)
         layout.addLayout(declaration_layout)
         layout.addStretch()
@@ -135,3 +152,5 @@ class MembersForm(QFrame):
     def set_member(self, member):
         self.member = member
         self.render_form()
+
+

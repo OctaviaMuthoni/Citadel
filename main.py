@@ -6,20 +6,21 @@ from PySide6.QtCore import QPropertyAnimation, QRect
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
+from core import LOGS_PATH, STYLES_PATH
 from library import Library
 from src.settings import Settings
 from views.login import LoginWindow
 
 if __name__ == '__main__':
 
-    log_path = os.path.join(os.getenv('APPDATA'), 'Falcon', 'logs', 'application.log')
+    log_path = os.path.join(LOGS_PATH, 'application.log')
+    styles_path = os.path.join(STYLES_PATH, 'styles.qss')
 
-    print(log_path)
     logging.basicConfig(filename=log_path, level=logging.DEBUG)
-    styles = ""
+
     # noinspection PyBroadException
     try:
-        with open("resources/stylesheets/styles.qss") as stylesheet:
+        with open(styles_path) as stylesheet:
             styles = stylesheet.read()
 
         app = QApplication([])

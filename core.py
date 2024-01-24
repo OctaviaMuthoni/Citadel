@@ -1,8 +1,14 @@
+import os
 from enum import Enum
 
 # constants
 ICON_SIZE = 30
 
+# path constants
+STATIC_FILES_BASE_PATH = os.path.join(os.getenv('APPDATA'), 'Citadel')
+LOGS_PATH = os.path.join(os.getenv('APPDATA'), 'Citadel', 'logs')
+IMAGES_PATH = os.path.join(os.getenv('APPDATA'), 'Citadel', 'images')
+STYLES_PATH = os.path.join(os.getenv('APPDATA'), 'Citadel', 'stylesheets')
 
 class Colors:
     WARNING = "#E0DE30"

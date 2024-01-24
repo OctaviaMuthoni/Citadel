@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QPushButton, QHBoxLa
 import qtawesome as qta
 
 from components import MarkdownViewer
+from core import STATIC_FILES_BASE_PATH
 
 
 class ManageRulesView(QWidget):
@@ -18,7 +19,7 @@ class ManageRulesView(QWidget):
         logo_lbl.setPixmap(QPixmap("resources/images/falcon.png"))
 
         rules_textedit = MarkdownViewer()
-        rules_textedit.load_markdown_file('static/rules.md')
+        rules_textedit.load_markdown_file(f'{STATIC_FILES_BASE_PATH}/rules.md')
         rules_textedit.toMarkdown(QTextDocument.MarkdownFeature.MarkdownDialectCommonMark)
 
         self.download_btn = QPushButton()
