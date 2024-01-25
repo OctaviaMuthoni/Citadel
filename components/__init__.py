@@ -9,3 +9,4 @@ from .buttons_widget import ButtonsWidget
 
 # A nested window standard layout component
 from .sub_window import SubWindow
+from .header import Header

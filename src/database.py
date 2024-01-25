@@ -1,6 +1,6 @@
 from PySide6.QtSql import QSqlDatabase
 
-
+# load configuration from settings
 config_options = {
     "driver": "QSQLITE",
     "host": "127.0.0.1",
@@ -34,6 +34,3 @@ if db.isDriverAvailable(driver):
 db.open()
 print(db.isOpen(), db.lastError())
 print(db.drivers())
-
-
-

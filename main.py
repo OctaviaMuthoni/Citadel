@@ -7,9 +7,9 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
 from core import LOGS_PATH, STYLES_PATH
-from library import Library
+from citadel import Library
 from src.settings import Settings
-from views.login import LoginWindow
+from citadel.login import LoginWindow
 
 if __name__ == '__main__':
 

@@ -1,17 +1,17 @@
 """
-    This model represent a continuous period of time when the library is open usually a term or semester.
+    This model represent a continuous period of time when the citadel is open usually a term or semester.
     Each period has a: Staring date
                        Ending date
                        Status ( whether open or closed )
-                       period_id ( LP/01/2023 ) This is a library period (LP) followed by term and then year
+                       period_id ( LP/01/2023 ) This is a citadel period (LP) followed by term and then year
 
     - All materials not returned when a period is closed are considered lost.
     - All members are rendered inactive when the period is closed.
-    - When a new period is started, each member is supposed to activate before having access to library services.
+    - When a new period is started, each member is supposed to activate before having access to citadel services.
     - Before activation members should clear all their account dues including:
                                                                             replacing lost materials
                                                                             paying fines
-                                                                            paying library fees
+                                                                            paying citadel fees
 """
 from datetime import datetime
 

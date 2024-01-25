@@ -1,39 +1,30 @@
-from PIL import Image, ImageDraw, ImageFont
+from PySide6.QtWidgets import QApplication, QWizard, QWizardPage, QVBoxLayout, QLabel, QLineEdit
 
+class ConfigPage(QWizardPage):
+    def __init__(self):
+        super(ConfigPage, self).__init__()
 
-def generate_library_card(user_name, card_number, expiration_date, save_path='library_card_template.png'):
-    # Create a blank white image for the library card
-    card_width = 400
-    card_height = 250
-    card_color = 'white'
-    card_image = Image.new('RGB', (card_width, card_height), card_color)
-    draw = ImageDraw.Draw(card_image)
+        layout = QVBoxLayout()
 
-    # Set fonts
-    title_font = ImageFont.truetype('arial.ttf', 20)
-    data_font = ImageFont.truetype('arial.ttf', 16)
+        self.database_label = QLabel("Database Name:")
+        self.database_edit = QLineEdit()
 
-    # Draw card header
-    title_text = 'Library Card'
-    title_width, title_height = draw.textsize(title_text, font=title_font)
-    title_position = ((card_width - title_width) // 2, 10)
-    draw.text(title_position, title_text, font=title_font, fill='black')
+        layout.addWidget(self.database_label)
+        layout.addWidget(self.database_edit)
 
-    # Draw user name
-    user_name_text = f'Name: {user_name}'
-    draw.text((20, 50), user_name_text, font=data_font, fill='black')
+        self.setLayout(layout)
 
-    # Draw card number
-    card_number_text = f'Card Number: {card_number}'
-    draw.text((20, 80), card_number_text, font=data_font, fill='black')
+class InstallWizard(QWizard):
+    def __init__(self):
+        super(InstallWizard, self).__init__()
 
-    # Draw expiration date
-    expiration_date_text = f'Expires: {expiration_date}'
-    draw.text((20, 110), expiration_date_text, font=data_font, fill='black')
+        self.addPage(ConfigPage())
+        self.setWindowTitle("Installation Wizard")
 
-    # Save the library card template
-    card_image.save(save_path)
+if __name__ == "__main__":
+    app = QApplication([])
 
+    wizard = InstallWizard()
+    wizard.show()
 
-# Example usage:
-generate_library_card('John Doe', '123456789', '2023-12-31', save_path='library_card_template.png')
+    app.exec()
