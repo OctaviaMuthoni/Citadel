@@ -1,19 +1,12 @@
 import sys
 
 from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QPalette, QAction, QPixmap, QIcon
-from PySide6.QtWidgets import QMainWindow, QToolBar, QApplication, QStackedWidget, QLabel, QFrame, QVBoxLayout, \
-    QSplitter, QWidget
+from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import QMainWindow, QToolBar, QApplication, QStackedWidget, QLabel, QFrame, QVBoxLayout, QWidget
 
 import qtawesome as qta
 
-from citadel import Reports, TimeSchedule, LossDamage, Transactions
-from citadel import SettingsView, Materials
-
 from components import Header
-from core import Colors
-from citadel.management.management import ManagementView
-from citadel.members.members_view import MembersView
 
 
 class MainWindow(QMainWindow):
@@ -137,10 +130,11 @@ if __name__ == "__main__":
             width: 210px;
             border-radius: 5px;
             border: 2px solid #8405add3
+            border-left: 3px;
         }
         #main_tool_bar QToolButton:checked, #main_tool_bar QToolButton:hover {
             background: #aa05add3;
-            border-left: 2px solid cyan;
+            border-left: 3px solid cyan;
         }
         
         #title {
