@@ -7,6 +7,8 @@ from PySide6.QtWidgets import QMainWindow, QToolBar, QApplication, QStackedWidge
 import qtawesome as qta
 
 from components import Header
+from views import MembersView, MaterialsView, LoanView, PaymentsView, ScheduleView, ReportsView, CardsView, \
+    ManagementView
 
 
 class MainWindow(QMainWindow):
@@ -69,10 +71,10 @@ class MainWindow(QMainWindow):
         self.header_widget.set_icon(action.icon())
 
     def create_menu(self):
-        self.tool_bar.addAction(qta.icon("ph.users-light", color="cyan"), "Members")
+        self.tool_bar.addAction(qta.icon("ph.user-light", color="cyan"), "Members")
         self.tool_bar.addAction(qta.icon("ph.books-light", color="cyan"), "Materials")
         self.tool_bar.addAction(qta.icon("ph.handshake-light", color="cyan"), "Loan")
-        self.tool_bar.addAction(qta.icon("ph.newspaper-clipping-light", color="cyan"), "Damages")
+        self.tool_bar.addAction(qta.icon("ph.newspaper-clipping-light", color="cyan"), "Cards")
         self.tool_bar.addAction(qta.icon("ph.currency-circle-dollar-light", color="cyan"), "Payments")
         self.tool_bar.addAction(qta.icon("ph.calendar-light", color="cyan"), "Schedule")
         self.tool_bar.addAction(qta.icon("ei.cogs", color="cyan"), "Management")
@@ -83,23 +85,22 @@ class MainWindow(QMainWindow):
         central_widget = QWidget()
 
         members = MembersView()
-        materials = Materials()
-        transactions = Transactions()
-        loss_and_damages = LossDamage()
-        time_schedule = TimeSchedule()
-        reports = Reports()
-        settings = SettingsView()
+        materials = MaterialsView()
+        loan = LoanView()
+        payment = PaymentsView()
+        schedule = ScheduleView()
+        reports = ReportsView()
+        cards = CardsView()
         management = ManagementView()
 
         self.content_widget.addWidget(members)
         self.content_widget.addWidget(materials)
-        self.content_widget.addWidget(transactions)
-        self.content_widget.addWidget(loss_and_damages)
-        self.content_widget.addWidget(time_schedule)
+        self.content_widget.addWidget(loan)
+        self.content_widget.addWidget(cards)
+        self.content_widget.addWidget(payment)
+        self.content_widget.addWidget(schedule)
         self.content_widget.addWidget(management)
         self.content_widget.addWidget(reports)
-        self.content_widget.addWidget(settings)
-        self.content_widget.addWidget(members)
 
         layout = QVBoxLayout(central_widget)
         layout.addWidget(self.header_widget)
@@ -107,48 +108,3 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(central_widget)
 
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    styles = ("""
-        * {
-            font: 10.5pt Arial;
-        }
-        QMainWindow, QStackedWidgetS {
-            background: #fafafa;
-        }
-        #main_tool_bar {
-            background: [PRIMARY];
-            border-right: 1px solid [PRIMARY];
-        }
-        #main_tool_bar QToolButton {
-            color: cyan;
-            text-align: left;
-            padding: 3px;
-            margin: 2px 10px;
-            width: 210px;
-            border-radius: 5px;
-            border: 2px solid #8405add3
-            border-left: 3px;
-        }
-        #main_tool_bar QToolButton:checked, #main_tool_bar QToolButton:hover {
-            background: #aa05add3;
-            border-left: 3px solid cyan;
-        }
-        
-        #title {
-            font-size: 13pt;
-            color: teal;
-        }
-        
-        #header {
-            background-color: #f9f9f9;
-            border-radius: 5px;
-        }
-    """)
-
-    s = styles.replace("[PRIMARY]", "#0598A8")
-    window.setStyleSheet(s)
-    window.showMaximized()
-    sys.exit(app.exec())

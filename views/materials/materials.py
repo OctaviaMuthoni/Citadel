@@ -6,9 +6,9 @@ import qtawesome as qta
 from components import Search
 
 
-class Materials(QWidget):
+class MaterialsView(QWidget):
     def __init__(self):
-        super(Materials, self).__init__()
+        super(MaterialsView, self).__init__()
 
         search_widget = Search()
 

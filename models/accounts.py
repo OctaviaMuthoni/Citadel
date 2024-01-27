@@ -1,7 +1,7 @@
 """
     This module manages accounts and their subscriptions.
     A member will have an account with a subscription fees.
-    All accounts with deficit will not have access to citadel services.
+    All accounts with deficit will not have access to views services.
 """
 from PySide6.QtSql import QSqlRelationalTableModel
 
@@ -17,7 +17,7 @@ class MemberAccounts(QSqlRelationalTableModel):
     def suspend_account(self):
         # suspend account: account can be suspended if it has a record of malicious damage.
         # misconduct
-        # breaking citadel rules
+        # breaking views rules
         pass
 
     def terminate_account(self):

@@ -110,7 +110,7 @@ class MembersForm(QFrame):
         declaration_layout.setSpacing(0)
         declaration_layout.addWidget(self.terms_agreement_checkbox)
         declaration_layout.addWidget(QLabel("""
-            Check this box to certify that member has read the citadel rules and submitted 
+            Check this box to certify that member has read the views rules and submitted 
             a fully signed declaration letter agreeing to the terms and condition
         """))
         declaration_layout.addStretch()

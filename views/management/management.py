@@ -4,10 +4,10 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QToolBar, QLabel, QStackedWi
 
 import qtawesome as qta
 
-from citadel.management.duties import DutiesView
-from citadel.management.institution import ManageInstitutionView
-from citadel.management.period import PeriodManagementView
-from citadel.management.rules import ManageRulesView
+from views.management.duties import DutiesView
+from views.management.institution import ManageInstitutionView
+from views.management.period import PeriodManagementView
+from views.management.rules import ManageRulesView
 
 
 class ManagementView(QWidget):

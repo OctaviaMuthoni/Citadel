@@ -41,7 +41,7 @@ class LoginWindow(QFrame):
         logo_lbl.setScaledContents(True)
         side_lbl.setFixedWidth(350)
         side_lbl.setObjectName("side_lbl")
-        side_img = QPixmap(self.settings.get_settings("logo", "resources/images/falcon.png"))
+        side_img = QPixmap(self.settings.get_settings("logo", "falcon.ico"))
         logo_lbl.setPixmap(side_img)
 
         email_link_lbl = QLabel("muthonioctavia@gmail.com")

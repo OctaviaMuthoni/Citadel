@@ -2,14 +2,13 @@ import logging
 import os
 import sys
 
-from PySide6.QtCore import QPropertyAnimation, QRect
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
 from core import LOGS_PATH, STYLES_PATH
-from citadel import Library
+from citadel import MainWindow
 from src.settings import Settings
-from citadel.login import LoginWindow
+from views.auth.login import LoginWindow
 
 if __name__ == '__main__':
 
@@ -34,7 +33,7 @@ if __name__ == '__main__':
 
         def handle_login_signal(user):
             global main_window
-            main_window = Library(user, settings)
+            main_window = MainWindow()
             main_window.setWindowTitle("The Citadel Academy")
             window.close()
             main_window.showMaximized()
