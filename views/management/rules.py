@@ -36,7 +36,7 @@ class ManageRulesView(QWidget):
         options_layout.addWidget(self.print_btn)
         options_layout.setContentsMargins(0, 60, 0, 0)
 
-        brand_name = QLabel("The Academic Citadel")
+        brand_name = QLabel("The Academic Musoni")
         brand_name.setObjectName("sbrand")
         details = QFormLayout()
         details.addRow(brand_name)

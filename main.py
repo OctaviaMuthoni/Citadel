@@ -1,21 +1,20 @@
-import logging
 import os
 import sys
 
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
-from core import LOGS_PATH, STYLES_PATH
-from citadel import MainWindow
+from core import STYLES_PATH
+from musoni import MainWindow
+from src.logger import AppLogger
 from src.settings import Settings
 from views.auth.login import LoginWindow
 
 if __name__ == '__main__':
 
-    log_path = os.path.join(LOGS_PATH, 'application.log')
-    styles_path = os.path.join(STYLES_PATH, 'styles.qss')
+    logger = AppLogger()
 
-    logging.basicConfig(filename=log_path, level=logging.DEBUG)
+    styles_path = os.path.join(STYLES_PATH, 'styles.qss')
 
     # noinspection PyBroadException
     try:
@@ -27,14 +26,14 @@ if __name__ == '__main__':
         settings = Settings()
 
         window = LoginWindow(settings)
-        window.setWindowTitle(settings.get_settings("institution", "The Citadel Academy"))
+        window.setWindowTitle(settings.get_settings("institution", "The Musoni Academy"))
 
         main_window = None  # Create an instance but don't show it initially
 
         def handle_login_signal(user):
             global main_window
             main_window = MainWindow()
-            main_window.setWindowTitle("The Citadel Academy")
+            main_window.setWindowTitle("The Musoni Academy")
             window.close()
             main_window.showMaximized()
 
@@ -44,4 +43,4 @@ if __name__ == '__main__':
         sys.exit(app.exec())
 
     except Exception as e:
-        logging.exception("An error occurred:")
+        logger.log_error(e.code(), e.message(), e.__traceback__)

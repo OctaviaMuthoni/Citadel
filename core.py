@@ -6,10 +6,10 @@ from enum import Enum
 ICON_SIZE = 30
 
 # path constants
-STATIC_FILES_BASE_PATH = os.path.join(os.getenv('APPDATA'), 'Citadel')
-LOGS_PATH = os.path.join(os.getenv('APPDATA'), 'Citadel', 'logs')
-IMAGES_PATH = os.path.join(os.getenv('APPDATA'), 'Citadel', 'images')
-STYLES_PATH = os.path.join(os.getenv('APPDATA'), 'Citadel', 'stylesheets')
+STATIC_FILES_BASE_PATH = os.path.join(os.getenv('APPDATA'), 'Musoni')
+LOGS_PATH = os.path.join(os.getenv('APPDATA'), 'Musoni', 'logs')
+IMAGES_PATH = os.path.join(os.getenv('APPDATA'), 'Musoni', 'images')
+STYLES_PATH = os.path.join(os.getenv('APPDATA'), 'Musoni', 'stylesheets')
 
 class Colors:
     WARNING = "#E0DE30"

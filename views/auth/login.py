@@ -78,7 +78,7 @@ class LoginWindow(QFrame):
         btns_widget = ButtonsWidget()
         btns_widget.add_button(self.login_btn)
 
-        title_lbl = QLabel(settings.get_settings("institution", "The Academic Citadel"))
+        title_lbl = QLabel(settings.get_settings("institution", "The Academic Musoni"))
         title_lbl.setObjectName("title-lbl")
         title_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
 

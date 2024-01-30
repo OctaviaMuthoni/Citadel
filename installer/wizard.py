@@ -110,7 +110,7 @@ class InstallWizard(QWizard):
 
         self.addPage(ApplicationConfig())
         self.addPage(DatabaseConfig())
-        self.setWindowTitle("Citadel Installation Wizard")
+        self.setWindowTitle("Musoni Installation Wizard")
 
         self.setFixedSize(QSize(840, 500))
 
