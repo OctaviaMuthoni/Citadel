@@ -9,3 +9,4 @@ from .payment import PaymentsView
 from .reports import ReportsView
 from .schedule import ScheduleView
 from .users import UsersView
+from .wizard import ConfigWizard

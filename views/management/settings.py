@@ -6,7 +6,7 @@ from PySide6.QtWidgets import QHBoxLayout, QLabel, QFormLayout, QPushButton, QTa
     QTextEdit, QGroupBox, QComboBox, QProgressBar, QSpinBox, QCommandLinkButton
 
 from components import ImageComponent, LineEdit
-from src.settings import Settings
+from core.settings import Settings
 
 
 class ApplicationSettingsView(QWidget):

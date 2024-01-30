@@ -1,0 +1,22 @@
+* {
+    font: 10.5pt Arial;
+}
+
+QMainWindow {
+    background: #fafafa;
+}
+
+#header {
+    background: #f9f9f9;
+    border-radius: 7px;
+}
+
+QToolButton {
+    width: 220px;
+    border: 1px solid #00000000;
+}
+
+#menu {
+    background: #0598a8;
+    border-right: 3px solid #240598a8;
+}

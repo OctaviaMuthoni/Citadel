@@ -19,7 +19,7 @@ from PySide6.QtSql import QSqlTableModel, QSqlQuery
 
 # from classes.Period import Period
 from models.members import MembersModel
-from src.database import db
+from core.database import db
 
 
 class PeriodModel(QSqlTableModel):

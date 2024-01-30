@@ -33,8 +33,9 @@ class Header(QFrame):
     def set_title(self, title):
         self.header_title_lbl.setText(title)
 
-    def set_icon(self, icon):
-        pixmap = icon.pixmap(512)
+    def set_icon(self, pixmap):
+        # print(icon)
+        # pixmap = icon.pixmap(512)
         mask = pixmap.createMaskFromColor(QColor('cyan'), Qt.MaskOutColor)
         pixmap.fill(QColor("teal"))
         pixmap.setMask(mask)

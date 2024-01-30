@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from PySide6.QtSql import QSqlTableModel, QSqlQuery
 
-from src.auth import hash_password
-from src.database import db
-from src.exceptions import DatabaseExceptions
+from core.auth import hash_password
+from core.database import db
+from core.exceptions import DatabaseExceptions
 
 
 @dataclass

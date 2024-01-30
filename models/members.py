@@ -1,8 +1,8 @@
 from PySide6.QtCore import QSortFilterProxyModel
 from PySide6.QtSql import QSqlTableModel, QSqlQuery
 
-from src.database import db
-from src.exceptions import DatabaseExceptions
+from core.database import db
+from core.exceptions import DatabaseExceptions
 
 from dataclasses import dataclass, field
 from datetime import datetime

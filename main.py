@@ -1,46 +1,38 @@
 import os
 import sys
 
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication
+from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import QApplication, QLabel
 
+import resources_rc
+
+from citadexx import MainWindow
 from core import STYLES_PATH
-from musoni import MainWindow
-from src.logger import AppLogger
-from src.settings import Settings
-from views.auth.login import LoginWindow
+from views import LoginWindow
 
 if __name__ == '__main__':
 
-    logger = AppLogger()
-
-    styles_path = os.path.join(STYLES_PATH, 'styles.qss')
-
-    # noinspection PyBroadException
     try:
-        with open(styles_path) as stylesheet:
-            styles = stylesheet.read()
+        styles = ""
+        with open("resources/stylesheets/light.qss") as stylesheet:
+            styles += stylesheet.read()
 
-        app = QApplication([])
-        app.setWindowIcon(QIcon("falcon.ico"))
-        settings = Settings()
+        app = QApplication(sys.argv)
 
-        window = LoginWindow(settings)
-        window.setWindowTitle(settings.get_settings("institution", "The Musoni Academy"))
+        window = LoginWindow()
+        main_window = None
 
-        main_window = None  # Create an instance but don't show it initially
-
-        def handle_login_signal(user):
+        def handle_login_signal():
             global main_window
             main_window = MainWindow()
-            main_window.setWindowTitle("The Musoni Academy")
-            window.close()
+            main_window.setStyleSheet(styles)
             main_window.showMaximized()
+            window.close()
 
-        app.setStyleSheet(styles)
+        # app.setStyleSheet(styles)
         window.loginSignal.connect(handle_login_signal)
         window.show()
         sys.exit(app.exec())
 
     except Exception as e:
-        logger.log_error(e.code(), e.message(), e.__traceback__)
+        print(e)

@@ -1,24 +1,28 @@
-from PySide6.QtCore import QSize, Qt, Signal, QRect
+import qtawesome as qta
+from PySide6.QtCore import QSize, Qt, Signal
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QLabel, QFormLayout, QLineEdit, QVBoxLayout, \
     QFrame
 
-import qtawesome as qta
 
+# importing custom components
 from components import ButtonsWidget, PushButton
 from components.message import Notifier
 
+# importing required models
 from models.users import UsersModel
-from src import auth
+
+# importing core functionality files
+from core.settings import Settings
 
 
 class LoginWindow(QFrame):
     loginSignal = Signal(str)
 
-    def __init__(self, settings):
+    def __init__(self):
         super(LoginWindow, self).__init__()
 
-        self.settings = settings
+        self.settings = Settings()
         self.user_model = UsersModel()
 
         layout = QVBoxLayout(self)
@@ -41,7 +45,7 @@ class LoginWindow(QFrame):
         logo_lbl.setScaledContents(True)
         side_lbl.setFixedWidth(350)
         side_lbl.setObjectName("side_lbl")
-        side_img = QPixmap(self.settings.get_settings("logo", "falcon.ico"))
+        side_img = QPixmap(self.settings.get_settings("logo", "favicon.ico"))
         logo_lbl.setPixmap(side_img)
 
         email_link_lbl = QLabel("muthonioctavia@gmail.com")
@@ -78,7 +82,7 @@ class LoginWindow(QFrame):
         btns_widget = ButtonsWidget()
         btns_widget.add_button(self.login_btn)
 
-        title_lbl = QLabel(settings.get_settings("institution", "The Academic Musoni"))
+        title_lbl = QLabel(self.settings.get_settings("institution", "The Academic Musoni"))
         title_lbl.setObjectName("title-lbl")
         title_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
 

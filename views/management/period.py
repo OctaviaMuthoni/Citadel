@@ -3,14 +3,14 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QFormLayout, QLabel, QPushBu
 
 from components import LineEdit, CustomTableView
 from components.message import Notifier
-from models.period import PeriodModel
+# from models.period import PeriodModel
 
 
 class PeriodManagementView(QWidget):
     def __init__(self):
         super(PeriodManagementView, self).__init__()
 
-        self.period_model = PeriodModel()
+        # self.period_model = PeriodModel()
 
         layout = QVBoxLayout(self)
 
@@ -24,7 +24,7 @@ class PeriodManagementView(QWidget):
 
         self.periods_table = CustomTableView()
         self.periods_table.setObjectName("custom_table")
-        self.periods_table.setModel(self.period_model)
+        # self.periods_table.setModel(self.period_model)
 
         self.open_header_widget = self.create_open_header()
         self.closed_header_widget = self.create_closed_header()
@@ -34,7 +34,7 @@ class PeriodManagementView(QWidget):
         layout.addWidget(self.periods_table)
 
         self.render_header()
-        self.period_model.layoutChanged.connect(self.render_header)
+        # self.period_model.layoutChanged.connect(self.render_header)
         
     def create_open_header(self):
         open_period_widget = QWidget()
@@ -70,17 +70,18 @@ class PeriodManagementView(QWidget):
         return no_open_period_widget
         
     def render_header(self):
-        current_period = self.period_model.get_open_period()
-        print(current_period)
-        if current_period:
-            self.open_header_widget.setHidden(True)
-            self.closed_header_widget.setHidden(False)
-            self.start_date_lbl = QLabel(f"Start date: {current_period.start_date}")
-            self.end_date_lbl = QLabel(f"End date: {current_period.end_date}")
-            self.period_lbl = QLabel(f"Period: {current_period.period}")
-        else:
-            self.closed_header_widget.setHidden(False)
-            self.open_header_widget.setHidden(True)
+        # current_period = self.period_model.get_open_period()
+        # print(current_period)
+        # if current_period:
+        #     self.open_header_widget.setHidden(True)
+        #     self.closed_header_widget.setHidden(False)
+        #     self.start_date_lbl = QLabel(f"Start date: {current_period.start_date}")
+        #     self.end_date_lbl = QLabel(f"End date: {current_period.end_date}")
+        #     self.period_lbl = QLabel(f"Period: {current_period.period}")
+        # else:
+        #     self.closed_header_widget.setHidden(False)
+        #     self.open_header_widget.setHidden(True)
+        pass
 
     def open_period(self):
         # p = Period(
@@ -93,4 +94,5 @@ class PeriodManagementView(QWidget):
         # self.period_model.start_period(p)
 
     def close_period(self):
-        self.period_model.close_period()
+        # self.period_model.close_period()
+        pass
