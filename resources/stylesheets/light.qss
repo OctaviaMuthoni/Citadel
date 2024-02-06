@@ -113,3 +113,7 @@ QHeaderView::section:checked
     border: 2px dashed lightgrey;
     border-radius: 10px;
 }
+
+#content {
+    margin: 0 20px;
+}

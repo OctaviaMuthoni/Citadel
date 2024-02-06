@@ -1,12 +1,14 @@
 import qtawesome as qta
 from PySide6.QtCore import QSize, Qt, Signal
-from PySide6.QtGui import QPixmap, QIcon
+from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QLabel, QFormLayout, QLineEdit, QVBoxLayout, \
     QFrame
 
+# from citadexx import MainWindow
 # import local modules
-import resources_rc
+# import resources_rc
 from core import Colors
+from ui.citadexx import MainWindow
 
 # importing custom widgets
 from ui.widgets import ButtonsWidget, PushButton
@@ -23,15 +25,15 @@ class LoginWindow(QFrame):
     # signals
     loginSignal = Signal(str)
 
-    def __init__(self, main_window):
+    def __init__(self):
         super(LoginWindow, self).__init__()
 
-        self.setWindowIcon(QIcon(":/favicon.ico"))
-        self.setWindowTitle("Citadexx")
+        # self.setWindowIcon(QIcon("favicon.ico"))
+        # self.setWindowTitle("Citadexx")
 
         self.settings = Settings()
         self.user_model = UsersModel()
-        self.main_window = main_window
+        self.main_window = MainWindow()
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -53,7 +55,7 @@ class LoginWindow(QFrame):
         logo_lbl.setScaledContents(True)
         side_lbl.setFixedWidth(300)
         side_lbl.setObjectName("side-lbl")
-        side_img = QPixmap(self.settings.get_settings("logo", ":/favicon.ico"))
+        side_img = QPixmap(self.settings.get_settings("logo", "favicon.ico"))
         logo_lbl.setPixmap(side_img)
 
         email_link_lbl = QLabel("muthonioctavia@gmail.com")
@@ -119,12 +121,38 @@ class LoginWindow(QFrame):
         main_layout.addWidget(login_widget)
 
         self.setFixedSize(QSize(900, 470))
-        # self.setStyleSheet(f"""
-        #
-        # """)
 
         self.event_listener()
-        print("login rendered")
+
+        self.setStyleSheet("""
+            * {
+                font-family: "arial";
+                font-size: 10pt;
+                color: #0598A8;
+            }
+            
+            /* Login window styles */
+            #login-background {
+                background: url("resources/images/login_bg.jpg");
+            }
+            
+            #side-lbl {
+                background: #0598A8;
+            }
+            
+            #side-lbl QLabel {
+                color: #f1f1f1;
+            }
+            
+            #brand-name {
+                font-size: 22pt;
+                font-family: "Casandra Light";
+                font-weight: 200;
+                color: #0598A8;
+            }
+            /* End of login window styles */
+        """)
+
     def event_listener(self):
         self.username_edit.textChanged.connect(self.username_to_upper)
 

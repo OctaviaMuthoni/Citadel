@@ -7,8 +7,8 @@ from ui.widgets import Header
 from ui.views import MembersView, MaterialsView, LoanView, PaymentsView, ScheduleView, ReportsView, CardsView, \
     ManagementView
 
-import resources_rc
-
+from core.settings import Settings
+settings = Settings()
 
 class MenuButton(QAction):
     def __init__(self, parent: QToolBar, icon: str, text: str):
@@ -35,7 +35,7 @@ class Menu(QToolBar):
         self.setIconSize(QSize(30, 30))
         self.setToolTipDuration(0)
 
-        brand_pixmap = QPixmap(":/favicon.ico")
+        brand_pixmap = QPixmap("favicon.ico")
         self.brand_lbl = QLabel()
         self.brand_lbl.setFixedSize(QSize(140, 120))
         self.brand_lbl.setScaledContents(True)
@@ -75,6 +75,7 @@ class CentralWidget(QFrame):
 
         self.header = Header()
         self.content_widget = QStackedWidget()
+        self.content_widget.setObjectName("content")
 
         members = MembersView()
         materials = MaterialsView()
@@ -95,7 +96,7 @@ class CentralWidget(QFrame):
         self.content_widget.addWidget(reports)
 
         layout = QVBoxLayout(self)
-        layout.setSpacing(30)
+        layout.setContentsMargins(20, 10, 20, 20)
         layout.addWidget(self.header)
         layout.addWidget(self.content_widget)
 
@@ -122,11 +123,16 @@ class MainWindow(QMainWindow):
         self.menu = Menu()
         self.addToolBar(Qt.ToolBarArea.LeftToolBarArea, self.menu)
 
-        self.setWindowIcon(QIcon(":/favicon.ico"))
-        self.setWindowTitle("Citadexx")
-
-        # self.setWindowFlags(Qt.WindowType.CustomizeWindowHint)
         self.event_handler()
+        self.load_styles()
 
     def event_handler(self):
         self.menu.navigateSignal.connect(self.central_widget.navigate)
+
+    def load_styles(self):
+        # application defaults to dark theme if no theme is set in settings.
+        theme = settings.get_settings("application/theme", "light")
+        stylesheet_path = f"resources/stylesheets/{theme}.qss"
+        # read stylesheet and return
+        with open(stylesheet_path) as stylesheet:
+            self.setStyleSheet(stylesheet.read())

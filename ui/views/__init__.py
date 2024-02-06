@@ -1,6 +1,5 @@
 from .management import ManagementView
 from .members import MembersView
-from .auth import LoginWindow
 from .cards import CardsView
 from .inventory import InventoryView
 from .loan import LoanView
