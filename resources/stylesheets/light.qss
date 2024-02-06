@@ -1,22 +1,115 @@
+/*
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// DEFAULT WIDGET STYLES ////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
 * {
-    font: 10.5pt Arial;
+    padding: 0;
+    margin: 0;
+    font-family: "arial";
+    font-size: 11pt;
+    color: grey;
+}
+
+QWidget {
+    background-color: rgba(0, 0, 0, 0);
 }
 
 QMainWindow {
-    background: #fafafa;
+    background-color: #ECFDFD;
 }
+
+QMainWindow::icon {
+    background-color: red;
+}
+
+QComboBox{selection-color: rgb(255, 0, 0);}
+
+QComboBox QAbstractItemView {
+    background-color: #ECFDFD;
+    padding: 3px;
+    font-size: 9pt;
+}
+
+QScrollBar
+{
+    background : none;
+}
+
+QLineEdit, QDateTimeEdit, QComboBox, QSpinBox, QDoubleSpinBox, QGroupBox {
+    border-radius: 4px;
+    border: 1px solid #540598A8;
+    padding: 5px;
+}
+
+QTableView, QTableWidget {
+    show-decoration-selected: false;
+    border: 1px solid #540598A8;
+    border-radius: 4px;
+    alternate-background-color: #120598A8;
+    gridline-color: #780598A8;
+    selection-background-color: #fafafa;
+    selection-color: #0598A8;
+}
+
+/*QTableWidgetItem()*/
+
+QHeaderView::section {
+    background-color: #fafafa;
+    color: #0598A8;
+    border: 1px solid #540598A8;
+    padding-left: 4px;
+}
+
+QHeaderView::section:checked
+{
+    background-color: #06B2C4;
+    color: #ECFDFD;
+}
+
+/*
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////// CUSTOM WIDGETS STYLES /////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
 
 #header {
-    background: #f9f9f9;
     border-radius: 7px;
+    background-color: #06B2C4;
 }
 
-QToolButton {
-    width: 220px;
-    border: 1px solid #00000000;
+#title {
+    font-size: 13pt;
+    color: whitesmoke;
 }
 
 #menu {
-    background: #0598a8;
-    border-right: 3px solid #240598a8;
+    background-color: #0598A8;
+    border: none;
+}
+
+#menu::separator {
+    background-color: #ECFDFD;
+/*    width: 100px;*/
+    height: 1px;
+}
+
+#menu QToolButton {
+    width: 200px;
+    color: #ECFDFD;
+    font-size: 11pt;
+    margin: 2px;
+}
+
+#menu QToolButton:checked, #menu QToolButton:hover {
+    background-color: #ECFDFD;
+    color: #0598A8;
+    border: 1px solid #06B2C4;
+    border-radius: 4px;
+}
+
+#preview-lbl {
+    border: 2px dashed lightgrey;
+    border-radius: 10px;
 }

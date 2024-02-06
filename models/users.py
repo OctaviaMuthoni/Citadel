@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from PySide6.QtSql import QSqlTableModel, QSqlQuery
 
-from core.auth import hash_password
+from core.encryption import hash_password
 from core.database import db
 from core.exceptions import DatabaseExceptions
 
@@ -11,6 +11,7 @@ class User:
     member_id: str
     password: str
     role_id: int
+    attempts: int
     user_id: int = -1
 
     def hashed_password(self):
@@ -27,7 +28,7 @@ class UsersModel(QSqlTableModel):
 
     def get_user(self, member_id):
         qry = QSqlQuery()
-        qry.prepare("SELECT * FROM users WHERE member_id = :member")
+        qry.prepare("CALL sp_GetMember(:member_id);")
         qry.bindValue(":member", member_id)
 
         if qry.exec() and qry.next():
@@ -35,7 +36,8 @@ class UsersModel(QSqlTableModel):
                 'member_id': qry.value('member_id'),
                 'user_id': qry.value('user_id'),
                 'role_id': qry.value('role_id'),
-                'password': qry.value('password')
+                'password': qry.value('password'),
+                'attempts': qry.value('attempts')
             }
             return User(**user_data)
         else:
@@ -117,4 +119,13 @@ class UsersModel(QSqlTableModel):
         pass
 
     def remove_role(self, role_id):
+        pass
+
+    def create_session(self, user):
+        pass
+
+    def reset_attempts(self):
+        pass
+
+    def add_attempt(self):
         pass

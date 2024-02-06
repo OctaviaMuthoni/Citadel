@@ -7,7 +7,7 @@ class PrintWithoutDialog(QMainWindow):
     def __init__(self):
         super(PrintWithoutDialog, self).__init__()
 
-        # Initialize UI components
+        # Initialize UI widgets
         self.init_ui()
 
     def init_ui(self):

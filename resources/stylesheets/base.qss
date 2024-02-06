@@ -1,0 +1,89 @@
+/*
+    The Citadexx base stylesheet.
+*/
+
+/* General Styles */
+* {{
+    color: {primary_text_color};
+    padding: 0;
+    margin: 0;
+    font-family: Arial;
+    font-size: 10pt;
+}}
+
+/* Main window styles */
+#menu {{
+    background: {primary};
+}}
+
+#menu QToolButton {{
+    width: 200px;
+    margin: 2px 10px;
+}}
+
+#menu QToolButton:hover {{
+    color: {primary};
+}}
+
+#header {{
+    background: {header_background};
+    border-radius: 5px;
+}}
+
+#title {{
+    font-size: 13pt;
+}}
+
+/* General styles */
+QMainWindow {{
+    background-color: {main_window_background};
+    opacity: 255;
+}}
+
+QLineEdit, QDateTimeEdit, QComboBox, QSpinBox, QDoubleSpinBox, QGroupBox {{
+    background: #00000000;
+    border-radius: 4px;
+    border: 1px solid {primary_text_color};
+    padding: 5px;
+}}
+
+/* Customize checkboxes */
+QCheckBox::indicator {{
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+}}
+
+QCheckBox::indicator:unchecked {{
+    border: 2px solid {inactive};
+/*    background-color: #eee;*/
+}}
+
+QCheckBox::indicator:checked {{
+    border: 2px solid {primary_text_color};
+/*    background-color: #ccffcc;*/
+}}
+
+QCheckBox::indicator:hover {{
+    border: 2px solid {primary_text_color};
+}}
+
+/* Customize radio buttons */
+QRadioButton::indicator {{
+    width: 14px;
+    height: 14px;
+    border-radius: 8px;
+}}
+
+QRadioButton::indicator:unchecked {{
+    border: 2px solid {primary};
+}}
+
+QRadioButton::indicator:checked {{
+    border: 2px solid {primary};
+    background: {primary_text_color}
+}}
+
+QRadioButton::indicator:hover {{
+    border: 2px solid {primary_text_color}; /* Border color for hover state */
+}}

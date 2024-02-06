@@ -1,20 +1,26 @@
-from PySide6.QtCore import QSettings
+from PySide6.QtCore import QSettings, Signal
 
 
 class Settings(QSettings):
+
+    valueChanged = Signal(tuple)
+    themeChanged = Signal(str)
+
     def __init__(self):
-        super(Settings, self).__init__("Falcon", "Musoni")
+        super(Settings, self).__init__("Falcon", "Citadexx")
 
-        self.setValue("application", "")
-        self.setValue("database", "")
-        self.setValue("printer", "")
-        self.setValue("user", "")
+    def edit_settings(self, key, value):
+        self.setValue(key, value)
+        self.valueChanged.emit((key, value,))
 
-    def edit_settings(self, setting, value):
-        self.setValue(setting, value)
+    def set_theme(self, theme):
+        self.beginGroup('application')
+        self.setValue('theme', theme)
+        self.themeChanged.emit(theme)
+        self.endGroup()
 
-    def get_settings(self, settings, default):
-        return self.value(settings, default)
+    def get_settings(self, key, default):
+        return self.value(key, default)
 
     def get_group_settings(self, group):
         settings = {}

@@ -1,65 +1,39 @@
 from PySide6.QtCore import Qt, QSize, Signal
-from PySide6.QtGui import QPixmap, QAction, QIcon, QColor
-from PySide6.QtWidgets import QMainWindow, QToolBar, QStackedWidget, QLabel, QFrame, QVBoxLayout, QWidget, QButtonGroup, \
-    QToolButton, QGraphicsDropShadowEffect, QSizePolicy
+from PySide6.QtGui import QPixmap, QAction, QIcon
+from PySide6.QtWidgets import QMainWindow, QToolBar, QStackedWidget, QLabel, QFrame, QVBoxLayout
 
 import qtawesome as qta
-
-from components import Header
-from views import MembersView, MaterialsView, LoanView, PaymentsView, ScheduleView, ReportsView, CardsView, \
+from ui.widgets import Header
+from ui.views import MembersView, MaterialsView, LoanView, PaymentsView, ScheduleView, ReportsView, CardsView, \
     ManagementView
+
+import resources_rc
 
 
 class MenuButton(QAction):
     def __init__(self, parent: QToolBar, icon: str, text: str):
-
         self._icon = qta.icon(icon, color="cyan", color_active="#05add3")
 
         super().__init__(self._icon, text)
 
-        tool_button = self.parent()
-        print(tool_button)
         parent.addAction(self)
-        # # configure menu button
-        # self.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
-        # # self.setFixedSize(QSize(240, 45))
-        # # self.setFixedWidth(230)
-        # self.setIconSize(QSize(60, 60))
-        # self.setCheckable(True)
+        self.setToolTip("")
+        self.setSeparator(True)
         self.setObjectName("menu-button")
-        #
-        # self.setFixedWidth(240)
-        #
-        # parent.addWidget(self)
-        #
-        # self.clicked.connect(self.click_handler)
 
-    def click_handler(self, x):
-        print(x)
 
 class Menu(QToolBar):
-    navigateSignal = Signal(int, QToolButton)
+    navigateSignal = Signal(int, QAction)
 
     def __init__(self):
         super().__init__()
 
         # configure menu
-        # self.setFixedWidth(250)
         self.setFloatable(False)
         self.setMovable(False)
         self.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.setIconSize(QSize(30, 30))
         self.setToolTipDuration(0)
-
-        palette = self.palette()
-        palette.setColor(self.backgroundRole(), QColor("#fafafa"))
-        self.setPalette(palette)
-
-        # shadow_effect = QGraphicsDropShadowEffect(self)
-        # shadow_effect.setBlurRadius(20)
-        # shadow_effect.setColor("#aa05add3")
-        # shadow_effect.setOffset(2, 2)
-        # self.setGraphicsEffect(shadow_effect)
 
         brand_pixmap = QPixmap(":/favicon.ico")
         self.brand_lbl = QLabel()
@@ -76,17 +50,23 @@ class Menu(QToolBar):
         self.addSeparator()
 
         self.menu_buttons = [
-            MenuButton(self, "ph.user-light", "Members"),
-            MenuButton(self, "ph.books-light", "Materials"),
-            MenuButton(self, "ph.handshake-light", "Loan"),
-            MenuButton(self, "ph.newspaper-clipping-light", "Cards"),
-            MenuButton(self, "ph.currency-circle-dollar-light", "Payments"),
-            MenuButton(self, "ph.calendar-light", "Schedule"),
-            MenuButton(self, "ei.cogs", "Management"),
-            MenuButton(self, "ph.chart-line-light", "Report"),
+            MenuButton(self, "ph.users-light", "members"),
+            MenuButton(self, "ph.books-light", "materials"),
+            MenuButton(self, "ph.book", "catalogue"),
+            MenuButton(self, "ph.handshake-light", "loan"),
+            MenuButton(self, "ph.newspaper-clipping-light", "cards"),
+            MenuButton(self, "ph.currency-circle-dollar-light", "payments"),
+            MenuButton(self, "ph.calendar-light", "schedule"),
+            MenuButton(self, "ei.cogs", "management"),
+            MenuButton(self, "ph.chart-line-light", "report"),
         ]
 
+        self.actionTriggered.connect(self.trigger)
+        self.setFixedWidth(220)
         self.setObjectName("menu")
+
+    def trigger(self, action: MenuButton):
+        self.navigateSignal.emit(self.menu_buttons.index(action), action)
 
 
 class CentralWidget(QFrame):
@@ -115,6 +95,7 @@ class CentralWidget(QFrame):
         self.content_widget.addWidget(reports)
 
         layout = QVBoxLayout(self)
+        layout.setSpacing(30)
         layout.addWidget(self.header)
         layout.addWidget(self.content_widget)
 
@@ -130,11 +111,6 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
-        # # Customize the title bar height
-        # title_bar = self.titleBar()
-        # title_bar.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        # title_bar.setFixedHeight(40)  #
-
         # the header
         self.header_widget = Header()
 
@@ -146,6 +122,10 @@ class MainWindow(QMainWindow):
         self.menu = Menu()
         self.addToolBar(Qt.ToolBarArea.LeftToolBarArea, self.menu)
 
+        self.setWindowIcon(QIcon(":/favicon.ico"))
+        self.setWindowTitle("Citadexx")
+
+        # self.setWindowFlags(Qt.WindowType.CustomizeWindowHint)
         self.event_handler()
 
     def event_handler(self):

@@ -1,117 +1,80 @@
----- CREATE IF NOT EXISTS DATABASE 'citadel';
---
----- USE citadel;
---
---CREATE TABLE members (
---    member_id VARCHAR(20) NOT NULL PRIMARY KEY,
---    profile_image VARCHAR(255),
---    name CHAR(50) NOT NULL,
---    dob DATE,
---    gender CHAR(10),
---    grade_year VARCHAR(15),
---    id_number VARCHAR(20),
---    phone VARCHAR(20),
---    email VARCHAR(255),
---    residence VARCHAR(50),
---    status CHAR(20)
+-- Creating queries that define all data tables and their relationsips
+
+CREATE TABLE members(
+    member_id VARCHAR(20) NOT NULL PRIMARY KEY,
+    id_type ENUM("Employee Card", "Student ID", "National ID", "Passport") NOT NULL,
+    id_number VARCHAR(20) NOT NULL UNIQUE,
+    firstname CHAR(20) NOT NULL,
+    middlename CHAR(20) NOT NULL,
+    lastname CHAR(20) NOT NULL,
+    profile_image VARCHAR(255),
+    dob DATE NOT NULL,
+    gender ENUM("Female", "Male", "Other") NOT NULL,
+    phone VARCHAR(14),
+    email VARCHAR(255),
+    current_resident VARCHAR(50),
+    permanent_residence VARCHAR(50)
+);
+
+CREATE TABLE users(
+    -- All system users are members
+    user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    member_id VARCHAR(20) NOT NULL,
+    password VARCHAR(255),
+    FOREIGN KEY (member_id) REFERENCES (member_id) ON (members.member_id)
+);
+
+CREATE TABLE cards (
+    card_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    serial_number VARCHAR(25) UNIQUE,
+    expiry_date DATE
+);
+
+CREATE TABLE member_cards (
+    issue_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    member_id VARCHAR(20) NOT NULL,
+    card_number INT NOT NULL,
+    issue_date DATE NOT NULL,
+    return_date DATE,
+    status ENUM("Active", "Returned", "Lost")
+);
+
+CREATE TABLE subscriptions (
+    subscription_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    subscription_type ENUM("Premium", "Freemium Limited", "Freemium Unlimited"),
+    period INT -- Period is given in months
+    subscription_fee DECIMAL(8, 2)
+);
+
+CREATE TABLE member_subscription (
+    member_id VARCHAR(20),
+    subscription_id INT,
+    subscription_date DATE,
+    expiry_date DATE
+);
+
+CREATE TABLE member_suspension(
+    sus_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    member_id VARCHAR(20) NOT NULL,
+    reason CHAR(50),
+    explanation VARCHAR(255),
+    sus_date DATE,
+    sus_end_date DATE,
+    FOREIGN KEY (member_id) REFERENCES (member_id) ON (members)
+);
+
+-- Queries that create user views for all defined tables
+-- Members VIEW
+--CREATE OR REPLACE VIEW members_view (
+--    member_id,
+--    fullname,
+--    subscription,
+--    status
 --);
---
---CREATE TABLE users (
---    user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
---    member_id VARCHAR(20),
---    password VARCHAR(255),
---    role CHAR(50)
---);
---
---CREATE TABLE material (
---
---);
---
---CREATE TABLE loan (
---
---);
---
---CREATE TABLE fines (
---    fine_id INT(4) NOT NULL PRIMARY KEY AUTO_INCREMENT,
---    description VARCHAR(),
---    amount DECIMAL(6, 2),
---    suspension INT(2),
---    termination INT(2)
---);
---
---CREATE TABLE loss_damages (
---    loss_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
---    material_id INT,
---    inventory_id INT,
---    description VARCHAR(255),
---    fined CHAR(10),
---);
---
---CREATE TABLE inventory(
---    inventory_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
---    category CHAR(50), -- include furniture, electronics, cleaning equipments.
---    sub_category CHAR(50), -- printers, computers, tables, chairs, tablets, shelves
---    serial_number VARCHAR(50),
---    description VARCHAR(255),
---    condition CHAR(20),
---    quantity INT(4),
---    last_update DATE
---);
---
---CREATE TABLE payments (
---    payment_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
---    amount DECIMAL(8, 2),
---    payment_date DATE,
---    paid_by VARCHAR(20)
---);
---
---CREATE TABLE periods (
---    period_id VARCHAR(10) NOT NULL PRIMARY KEY,
---    start_date DATE NOT NULL,
---    end_date DATE,
---    status CHAR(10) NOT NULL
---);
---
---CREATE TABLE time_schedule (
---    slot_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
---    slot_date DATE,
---    slot_time TIME,
---    reserved_for VARCHAR(50),
---    description VARCHAR(255),
---    reserved_by CHAR(50),
---    reserved_on DATE
---);
---
---
---
---
---
---
+
+-- Data Manipulation queries
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-- Stored procedures
+-- backup
+-- unsubscriptions

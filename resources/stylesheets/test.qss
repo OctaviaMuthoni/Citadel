@@ -1,0 +1,19 @@
+
+/*@menuColor*/
+@c = "test"
+
+MainWindow {
+    color: pink;
+}
+
+#text {
+    color: [SECONDARY];
+}
+
+#test {
+
+}
+
+#more_texte {
+
+}

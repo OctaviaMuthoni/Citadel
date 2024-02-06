@@ -1,0 +1,9 @@
+{
+  "primary": "#246363",
+  "SECONDARY": "red",
+  "ACCENT": "teal",
+  "primary_text_color": "#58F2F2",
+  "header_background": "#246363",
+  "main_window_background": "#2E8080",
+  "inactive": "#e9e9e9"
+}

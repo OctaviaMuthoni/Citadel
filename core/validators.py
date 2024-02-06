@@ -48,9 +48,9 @@ class MemberNumberValidator(QRegularExpressionValidator):
         self.setRegularExpression(self.reg_exp)
 
 
-class CurrenctValidator(QDoubleValidator):
+class CurrencyValidator(QDoubleValidator):
     def __init__(self):
-        super(CurrenctValidator, self).__init__()
+        super(CurrencyValidator, self).__init__()
 
         self.setRange(0.00, 999999999.00)
         self.setDecimals(2)
