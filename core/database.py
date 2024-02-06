@@ -4,14 +4,15 @@ from core.settings import Settings
 
 settings = Settings()
 
+# Get database configuration settings
 db_settings = settings.get_group_settings("database")
 
-driver = db_settings.get('driver',  'QSQLITE')
-host = db_settings.get('host', 'localhost')
-port = db_settings.get('port', '3360')
-name = db_settings.get('name', 'citadexx')
-user = db_settings.get('user', 'root')
-passwd = db_settings.get('password', '')
+driver = db_settings.get('driver')
+host = db_settings.get('host')
+port = db_settings.get('port')
+name = db_settings.get('name')
+user = db_settings.get('user')
+passwd = db_settings.get('password')
 
 db = QSqlDatabase.addDatabase(driver)
 
@@ -25,7 +26,4 @@ if db.isDriverAvailable(driver):
         db.setPort(port)
         db.setUserName(user)
         db.setPassword(passwd)
-#
-# db.open()
-# print(db.isOpen(), db.lastError())
-# print(db.drivers())
+
