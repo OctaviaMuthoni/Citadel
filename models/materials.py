@@ -1,16 +1,28 @@
-from PySide6.QtCore import QSortFilterProxyModel
 from PySide6.QtSql import QSqlRelationalTableModel
 
 
-class MaterialsProxyModel(QSortFilterProxyModel):
-    def __init__(self):
-        super(MaterialsProxyModel, self).__init__()
-
-        source_model = MaterialsModel()
-        self.setSourceModel(source_model)
-
-
 class MaterialsModel(QSqlRelationalTableModel):
+    """
+        This model manages library materials. Different materials has different attributes and features.
+        # common attributes:
+            material_id - In format: media type/category/material number(vesion)/cummulation number
+            title
+            subject
+
+        # conditional - if published:
+            - ISBN
+            - publisher
+            - publication date
+
+
+        ## uncommon details:
+        - number of pages
+        - length
+        - genre
+        - class
+        - age limit
+        - etc
+    """
     def __init__(self):
         super(MaterialsModel, self).__init__()
 

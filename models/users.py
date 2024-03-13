@@ -1,21 +1,11 @@
-from dataclasses import dataclass
+import random
+from uuid import uuid4
+
+from PySide6.QtCore import QDateTime
 from PySide6.QtSql import QSqlTableModel, QSqlQuery
 
-from core.encryption import hash_password
-from core.database import db
-from core.exceptions import DatabaseExceptions
-
-
-@dataclass
-class User:
-    member_id: str
-    password: str
-    role_id: int
-    attempts: int
-    user_id: int = -1
-
-    def hashed_password(self):
-        return hash_password(self.password)
+from classes import User
+from share import db
 
 
 class UsersModel(QSqlTableModel):
@@ -23,109 +13,170 @@ class UsersModel(QSqlTableModel):
         super(UsersModel, self).__init__()
 
         db.open()
-        self.setTable("users")
-        self.select()
+        self.setTable('users')
 
-    def get_user(self, member_id):
+        self.setEditStrategy(QSqlTableModel.EditStrategy.OnManualSubmit)
+
+    def create_user(self, user: User):
         qry = QSqlQuery()
-        qry.prepare("CALL sp_GetMember(:member_id);")
-        qry.bindValue(":member", member_id)
+        qry.prepare("""
+            INSERT INTO users 
+            (user_uuid, profile_image, username, email, role, password, attempts)
+            VALUES (:user_uuid, :profile_image, :username, :email, :role, :password, :attempts);
+        """)
 
-        if qry.exec() and qry.next():
-            user_data = {
-                'member_id': qry.value('member_id'),
-                'user_id': qry.value('user_id'),
-                'role_id': qry.value('role_id'),
-                'password': qry.value('password'),
-                'attempts': qry.value('attempts')
-            }
-            return User(**user_data)
-        else:
-            print("Error retrieving member:", qry.lastError().text())
-
-        return None
-
-    def add_user(self, user: User):
-        qry = QSqlQuery()
-        qry_string = "INSERT INTO users VALUES (:member_id, :password, :role)"
-        qry.prepare(qry_string)
-
-        qry.bindValue(":member_id", user.member_id)
-        qry.bindValue(":password", user.hashed_password())
-        qry.bindValue(":role", user.role_id)
+        qry.bindValue(":user_uuid", user.user_uuid)
+        qry.bindValue(":profile_image", user.profile_image)
+        qry.bindValue(":username", user.username)
+        qry.bindValue(":email", user.email)
+        qry.bindValue(":role", user.role)
+        qry.bindValue(":password", user.password)
+        qry.bindValue(":attempts", user.attempts)
 
         if qry.exec():
-            self.layoutChanged.emit()
             db.commit()
             return True
         else:
             db.rollback()
-            raise DatabaseExceptions(db.lastError().text())
+            return False
 
-    def remove_user(self, user_id):
+    def get_user(self, username):
         qry = QSqlQuery()
-        qry_string = "DELETE FROM users WHERE user_id = :user_id"
-        qry.prepare(qry_string)
-
-        qry.bindValue(":user_id", user_id)
+        qry.prepare("SELECT * FROM users WHERE username = :username")
+        qry.bindValue(":username", username)
 
         if qry.exec():
-            self.layoutChanged.emit()
+            while qry.next():
+                record = qry.record()
+                user = dict()
+                for i in range(record.count()):
+                    user[record.fieldName(i)] = record.value(i)
+
+                return User(**user)
+        else:
+            print("Error:", db.lastError())
+
+    def create_otp(self, user_uuid):
+        unused_qry = QSqlQuery()
+        unused_qry.prepare("""
+                SELECT otp
+                FROM otps 
+                WHERE user_uuid = :user_uuid 
+                AND status = 'UNUSED'
+                LIMIT 1
+            """)
+        unused_qry.bindValue(":user_uuid", user_uuid)
+
+        if unused_qry.exec() and unused_qry.next():
+            return unused_qry.value(0)
+
+        db.transaction()
+
+        qry = QSqlQuery()
+        qry.prepare("""
+            INSERT INTO otps 
+            (otp_uuid, user_uuid, otp, created_on, expires_on) 
+            VALUES (:otp_uuid, :user_uuid, :otp, :created_on, :expires_on)
+        """)
+
+        created_on = QDateTime().currentDateTime()
+        expires_on = created_on.addSecs(3600)
+
+        otp = random.randint(100000, 999999)
+        otp_uuid = str(uuid4())
+
+        qry.bindValue(":otp_uuid", otp_uuid)
+        qry.bindValue(":user_uuid", user_uuid)
+        qry.bindValue(":otp", otp)
+        qry.bindValue(":created_on", created_on)
+        qry.bindValue(":expires_on", expires_on)
+
+        event_name = otp_uuid.replace('-', '_')
+        schedule_time = expires_on.toPython()
+
+        if qry.exec():
+            event_qry = QSqlQuery(f"""
+                CREATE EVENT {event_name}
+                ON SCHEDULE AT '{schedule_time}'
+                DO UPDATE otps SET status = 'EXPIRED' WHERE otp_uuid = '{otp_uuid}'
+            """)
+
+            if event_qry.exec():
+                db.commit()
+                return otp
+            else:
+                db.rollback()
+                return False
+        else:
+            db.rollback()
+            return False
+
+    def update_profile_image(self, user_uuid, profile_image):
+        qry = QSqlQuery()
+        qry.prepare("""
+                    UPDATE users
+                    SET profile_image = :profile_image
+                    WHERE user_uuid = :user_uuid;
+                """)
+
+        qry.bindValue(":user_uuid", user_uuid)
+        qry.bindValue(":profile_image", profile_image)
+
+        if qry.exec():
             db.commit()
             return True
         else:
             db.rollback()
-            raise DatabaseExceptions(db.lastError().text())
+            return False
 
-    def update_user(self, user_id, new_password):
+    def update_role(self, user_uuid, role):
         qry = QSqlQuery()
-        qry_string = "UPDATE users SET password = :password WHERE user_id = :user_id"
-        qry.prepare(qry_string)
+        qry.prepare("""
+                    UPDATE users
+                    SET role = :role
+                    WHERE user_uuid = :user_uuid;
+                """)
 
-        qry.bindValue(":user_id", user_id)
-        qry.bindValue(":password", new_password)
-
-        if qry.exec():
-            self.layoutChanged.emit()
-            db.commit()
-            return True
-        else:
-            db.rollback()
-            raise DatabaseExceptions(db.lastError().text())
-
-    def update_role(self, user_id, role):
-        qry = QSqlQuery()
-        qry_string = "UPDATE users SET role = :role WHERE user_id = :user_id"
-        qry.prepare(qry_string)
-
-        qry.bindValue(":user_id", user_id)
+        qry.bindValue(":user_uuid", user_uuid)
         qry.bindValue(":role", role)
 
         if qry.exec():
-            self.layoutChanged.emit()
             db.commit()
             return True
         else:
             db.rollback()
-            raise DatabaseExceptions(db.lastError().text())
+            return False
 
-    def get_user_rights(self, user_id):
-        pass
+    def reduce_attempts(self, user_uuid):
+        qry = QSqlQuery()
+        qry.prepare("""
+                    UPDATE users
+                    SET attempts = attempts - 1
+                    WHERE user_uuid = :user_uuid;
+                """)
 
-    def set_user_rights(self, user, rights):
-        pass
+        qry.bindValue(":user_uuid", user_uuid)
 
-    def add_role(self, role, rights):
-        pass
+        if qry.exec():
+            db.commit()
+            return True
+        else:
+            db.rollback()
+            return False
 
-    def remove_role(self, role_id):
-        pass
+    def reset_attempts(self, user_uuid):
+        qry = QSqlQuery()
+        qry.prepare("""
+                    UPDATE users
+                    SET attempts = 3
+                    WHERE user_uuid = :user_uuid;
+                """)
 
-    def create_session(self, user):
-        pass
+        qry.bindValue(":user_uuid", user_uuid)
 
-    def reset_attempts(self):
-        pass
-
-    def add_attempt(self):
-        pass
+        if qry.exec():
+            db.commit()
+            return True
+        else:
+            db.rollback()
+            return False

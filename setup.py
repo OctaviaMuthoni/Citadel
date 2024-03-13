@@ -3,9 +3,9 @@ from setuptools import setup
 setup(
     name='Citadexx',
     version='1.0.0',
-    packages=['ui', 'ui.views', 'ui.views.auth', 'ui.views.loan', 'ui.views.cards', 'ui.views.users', 'ui.views.wizard',
-              'ui.views.members', 'ui.views.payment', 'ui.views.reports', 'ui.views.schedule', 'ui.views.inventory',
-              'ui.views.materials', 'ui.views.management', 'ui.widgets', 'core'],
+    packages=['views', 'views.views', 'views.views.auth', 'views.views.loan', 'views.views.cards', 'views.views.users', 'views.views.wizard',
+              'views.views.members', 'views.views.payment', 'views.views.reports', 'views.views.scheduling', 'views.views.inventory',
+              'views.views.materials', 'views.views.management', 'views.widgets', 'share'],
     url='',
     license='G.P.L v3',
     author='Octavia Muthoni',

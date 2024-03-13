@@ -1,0 +1,35 @@
+* {
+    color: #0492B3;
+    font-size: 10pt;
+}
+
+#brand {
+    font-family: gabriola;
+    font-size: 32pt;
+}
+
+#mini-brand {
+    font-size: 16pt;
+}
+
+#login-widget {
+    background-color: #120598A9;
+}
+
+#login-page {
+    background-image: url('res/images/ee.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #fefefe;
+}
+
+QLineEdit {
+    border: 1px solid #4505ADD3;
+    background: #96ffffff;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+#error {
+    background-color: red;
+}

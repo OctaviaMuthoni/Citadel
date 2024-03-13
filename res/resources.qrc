@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource>
+        <file>resources/images/falcon.png</file>
+        <file>favicon.ico</file>
+    </qresource>
+</RCC>

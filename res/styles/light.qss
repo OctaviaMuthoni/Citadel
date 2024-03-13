@@ -1,0 +1,167 @@
+/*
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// GLOBAL WIDGET STYLES ////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+* {
+    font-family: 'Tohama';
+    font-size: 10pt;
+    color: #0598A8;
+}
+
+QMainWindow {
+    background-color: #fafafa;
+}
+
+QComboBox {
+    padding: 5px;
+    border: 1px solid #4505ADD5;
+    border-radius: 4px;
+    background-color: transparent;
+}
+
+QLineEdit, QDateTimeEdit, QSpinBox, QDoubleSpinBox {
+    border: 1px solid #4505ADD5;
+    background-color: transparent;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+QLineEdit:focus, QDateTimeEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus {
+    border-color: #05ADD5;
+}
+
+QTableView, QTableWidget {
+    background-color: #fefefe;
+    show-decoration-selected: true;
+    border-radius: 4px;
+    alternate-background-color: #128FE4E6;
+    gridline-color: #f1f1f1;
+    selection-background-color: #568FE4E6;
+    selection-color: #0598A8;
+    text-align: center;
+}
+
+QHeaderView::section {
+    background-color: #ee06B2C4;
+    color: #fafafa;
+    border: none;
+    border-left: 1px solid #fafafa;
+    padding: 3px;
+}
+
+QHeaderView::section:checked
+{
+    background-color: #06B2C4;
+    color: #fafafa;
+    border: none;
+    border-left: 1px solid #fafafa;
+}
+
+QCalendarWidget {
+    border-radius: 5px;
+}
+
+/*
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////// CUSTOM WIDGETS STYLES /////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+#header {
+    border-radius: 7px;
+    background-color: #ffffff;
+}
+
+#sub-header {
+    border-radius: 5px;
+    background-color: #1205ADD3;
+}
+
+#title {
+    font-size: 13pt;
+    color: #05ADD3;
+}
+
+#sub-title {
+    font-size: 12pt;
+    color: #05ADD3;
+}
+
+#menu {
+    background-color: #06B2C4;
+    border: none;
+    padding: 10px;
+}
+
+#menu::separator {
+    background-color: #fafafa;
+    height: 1px;
+}
+
+#menu QToolButton {
+    color: #fafafa;
+}
+
+#menu QToolButton:checked, #menu QToolButton:hover {
+    background-color: #ECFDFD;
+    color: #0598A8;
+    border: 1px solid #06B2C4;
+    border-radius: 4px;
+}
+
+#in-page-menu {
+    background-color: #f1f1f1;
+    border-radius: 4px;
+}
+
+#in-page-menu QLabel {
+    padding-left: 15px;
+}
+
+#image-preview {
+    border: 2px dashed #450598A8;
+    border-radius: 10px;
+}
+
+#content {
+    margin: 0 20px;
+}
+
+#brand-widget {
+    background-color: #06B2C4;
+    border-bottom: 1px solid #fafafa;
+}
+
+#search-widget {
+    border: 1px solid #e4e4e4;
+    border-radius: 3px;
+}
+
+#search-widget QLineEdit {
+    border: none;
+    border-left: 1px solid #e4e4e4;
+    border-radius: none;
+    font-size: 11pt;
+}
+
+#borderless {
+    border: none;
+}
+
+#push_button {
+    font-size: 11pt;
+    background-color: #05ADD3;
+    border-radius: 4px;
+    color: #fafafa;
+}
+
+#push_button:hover {
+    background-color: #0598A8;
+    color: #ffffff;
+}
+
+#error-toast {
+    background-color: red;
+}

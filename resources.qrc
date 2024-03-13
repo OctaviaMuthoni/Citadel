@@ -1,9 +1,0 @@
-<!DOCTYPE RCC>
-<RCC version="1.0">
-    <qresource>
-        <file>resources/images/falcon.png</file>
-        <file>resources/stylesheets/dark.qss</file>
-        <file>resources/stylesheets/light.qss</file>
-        <file>favicon.ico</file>
-    </qresource>
-</RCC>

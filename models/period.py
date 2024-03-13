@@ -17,25 +17,27 @@ from datetime import datetime
 
 from PySide6.QtSql import QSqlTableModel, QSqlQuery
 
-# from classes.Period import Period
-from models.members import MembersModel
-from core.database import db
+from classes import Period
+from share import db
 
 
-class PeriodModel(QSqlTableModel):
+class PeriodsModel(QSqlTableModel):
     def __init__(self):
-        super(PeriodModel, self).__init__()
+        super(PeriodsModel, self).__init__()
 
         self.setTable("periods")
-        self.members = MembersModel()
+        self.select()
 
-    def start_period(self, period):
+        self.setEditStrategy(QSqlTableModel.EditStrategy.OnManualSubmit)
+
+    def start_period(self, period: Period):
         qry = QSqlQuery()
-        qry.prepare(f"""INSERT INTO {self.tableName()} 
-                        (period, start_date, end_date, status)
-                        VALUES (:period, :start, :end, :status)
+        qry.prepare(f"""INSERT INTO periods 
+                        (period_id, period, start_date, end_date, status)
+                        VALUES (:id, :period, :start, :end, :status)
                     """)
 
+        qry.bindValue(":id", period.period_id)
         qry.bindValue(":period", period.period)
         qry.bindValue(":start", period.start_date)
         qry.bindValue(":end", period.end_date)
@@ -43,7 +45,6 @@ class PeriodModel(QSqlTableModel):
 
         if qry.exec():
             db.commit()
-            self.select()
             return True
         else:
             print("Error opening period:", qry.lastError().text())
@@ -53,13 +54,12 @@ class PeriodModel(QSqlTableModel):
 
     def close_period(self):
         qry = QSqlQuery()
-        qry.prepare("UPDATE periods SET end_date = :end_date, status = 'closed' WHERE status = 'open'")
+        qry.prepare("UPDATE periods SET end_date = :end_date, status = :status WHERE status = 'OPEN'")
         qry.bindValue(":end_date", datetime.today().date())
-        print(qry.boundValue(':end_date'))
+        # print(qry.boundValue(':end_date'))
         if qry.exec():
             self.submitAll()
             db.commit()
-            self.select()
             return True
         else:
             print("Error closing period:", qry.lastError().text())
@@ -67,14 +67,18 @@ class PeriodModel(QSqlTableModel):
 
         return False
 
-    def get_open_period(self):
+    def get_open_period(self) -> Period | None:
         qry = QSqlQuery()
-        qry.prepare("SELECT * FROM periods WHERE status = :open")
-        qry.bindValue(":open", "open")
+        qry.prepare("SELECT * FROM periods WHERE status = 'OPEN'")
 
         if qry.exec() and qry.next():
-            open_period = ""
-
+            open_period = Period(
+                qry.value('period_id'),
+                qry.value('period'),
+                qry.value('start_date'),
+                qry.value('end_date'),
+                qry.value('status')
+            )
             return open_period
         else:
             print("Error getting open period:", qry.lastError())
