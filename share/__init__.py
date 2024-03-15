@@ -2,7 +2,6 @@ import os
 
 from .config import load_settings
 from .encryption import hash_password
-from .database import db
 
 # constants
 ICON_SIZE = 30

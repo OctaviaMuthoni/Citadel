@@ -1,11 +1,12 @@
 from PySide6.QtSql import QSqlTableModel, QSqlQuery
 
-from share import db
 from share.exceptions import DatabaseExceptions
 
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
+
+from database.database import db
 
 
 class ItemType(Enum):

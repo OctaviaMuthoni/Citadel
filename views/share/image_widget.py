@@ -12,6 +12,7 @@ from PySide6.QtWidgets import QVBoxLayout, QLabel, QCommandLinkButton, QFrame, Q
 class ImageWidget(QFrame):
     # declare signals
     modeChangedSignal = Signal(typing.Any)
+    imageChangedSignal = Signal(str)
 
     # create image widget mode class
     class ImageWidgetMode:
@@ -29,7 +30,7 @@ class ImageWidget(QFrame):
         self.image_preview = QLabel("Drop Here")
         self.image_preview.setObjectName("image-preview")
         self.image_preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.image_preview.setScaledContents(True)
+        # self.image_preview.setScaledContents(True)
         self.image_preview.setFixedSize(self.image_size)
 
         # upload button
@@ -65,14 +66,16 @@ class ImageWidget(QFrame):
 
         self.setFixedWidth(self.image_size.width() + 20)
 
+        self.imageChangedSignal.connect(self.update_image)
+
     def change_mode(self, mode):
         self.mode = mode
         if mode == self.ImageWidgetMode.PREVIEW:
+            pixmap = qta.icon("ph.user", color="#450598A8").pixmap(120)
+            self.image_preview.setPixmap(pixmap)
             self.upload_widget.setHidden(True)
             self.setAcceptDrops(False)
         elif mode == self.ImageWidgetMode.UPLOAD:
-            pixmap = qta.icon("fa.user-circle", color="#450598A8").pixmap(self.image_size * 0.75)
-            self.image_preview.setPixmap(pixmap)
             self.image_preview.setScaledContents(False)
             self.upload_widget.setVisible(True)
             self.setAcceptDrops(True)

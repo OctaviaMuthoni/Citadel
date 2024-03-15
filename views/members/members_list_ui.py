@@ -1,5 +1,5 @@
 import qtawesome as qta
-from PySide6.QtCore import QSize, Qt, Signal
+from PySide6.QtCore import QSize, Qt, Signal, QModelIndex
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QToolBar, QSplitter, QPushButton
 
@@ -14,15 +14,15 @@ from share import Status
 
 class MembersListView(QWidget):
 
-    viewMemberSignal = Signal()
-    editMemberSignal = Signal()
+    viewMemberSignal = Signal(str)
+    editMemberSignal = Signal(str)
     createMemberSignal = Signal()
 
     def __init__(self):
         super(MembersListView, self).__init__()
 
-        self.model = MembersModel()
-        self.proxy_model = SortFilterProxyModel(self.model, text_columns=[0, 1])
+        self.members_model = MembersModel()
+        self.proxy_model = SortFilterProxyModel(self.members_model, text_columns=[0, 1])
         self.proxy_model.add_filter(5, "department")
         self.proxy_model.add_filter(6, "grade")
         self.proxy_model.add_filter(7, "status")
@@ -31,6 +31,7 @@ class MembersListView(QWidget):
             "Student",
             "Employee"
         ])
+
         self.member_type_field = FormField("Member type", self.member_type_combo)
 
         # members view table
@@ -85,7 +86,7 @@ class MembersListView(QWidget):
 
         # filters layout
         search_filter_layout = QHBoxLayout()
-        search_filter_layout.setSpacing(0)
+        search_filter_layout.setSpacing(15)
         search_filter_layout.setContentsMargins(0, 0, 0, 0)
         search_filter_layout.addWidget(self.search_edit)
         search_filter_layout.addStretch()
@@ -134,17 +135,21 @@ class MembersListView(QWidget):
         self.member_type_combo.currentTextChanged.connect(self.load_model)
         self.create_action.triggered.connect(self.createMemberSignal.emit)
         self.edit_action.triggered.connect(self.editMemberSignal.emit)
-        self.view_action.triggered.connect(self.viewMemberSignal.emit)
+        self.view_action.triggered.connect(self.show_profile)
         self.clear_filters_btn.clicked.connect(self.clear_filters)
         self.departments_combo.currentTextChanged.connect(lambda department: self.update_filters("department", department))
         self.grade_combo.currentTextChanged.connect(lambda grade: self.update_filters("grade", grade))
         self.search_edit.search_input.textChanged.connect(self.search)
         self.status_combo.currentTextChanged.connect(lambda status: self.update_filters("status", status))
 
+    def show_profile(self):
+        cur_idx = self.table.selectionModel().currentIndex().siblingAtColumn(0)
+        self.viewMemberSignal.emit(cur_idx.data())
+
     def load_model(self, member_type):
-        self.model.setTable(member_type.lower() + 's')
-        self.model.select()
-        self.proxy_model.setSourceModel(self.model)
+        self.members_model.setTable(member_type.lower() + 's')
+        self.members_model.select()
+        self.proxy_model.setSourceModel(self.members_model)
 
         self.clear_filters()
 

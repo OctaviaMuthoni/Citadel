@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout, QFormLayout, QGridLayout, \
-    QCheckBox, QCommandLinkButton, QGroupBox
+    QCheckBox, QCommandLinkButton, QGroupBox, QStackedWidget
 
 # Local imports
 from views.share import FormField, SubHeader, Toast, DateEdit, ImageWidget, OptionButtonsGroup, LineEdit, ComboBox, PushButton
@@ -51,19 +51,37 @@ class MemberRegistrationForm(QFrame):
         self.admission_number_edit = LineEdit("[0-9]{5}")
 
         self.department_combo = ComboBox([
-            "zjfnsdfsd"
+            "Administration", "Academics", "Kitchen", "Security", "House Keeping"
         ])
+
         self.role_combo = ComboBox([
-            "kjff"
+            "Teacher", "Director", "Kitchen staff", "Head Chef"
         ])
-        self.grade_combo = ComboBox(["hjfsd"])
-        self.stream_combo = ComboBox(["zknff"])
+
+        self.grade_combo = ComboBox([
+            "Grade 1",
+            "Grade 2",
+            "Grade 3",
+            "Grade 4",
+            "Grade 5",
+            "Grade 6",
+            "Grade 7",
+            "Grade 8",
+            "Grade 9",
+            "Grade 10",
+            "Grade 11",
+            "Grade 12"
+        ])
+
+        self.stream_combo = ComboBox([
+            "East", "West", "North", "South"
+        ])
 
         self.declaration_checkbox = QCheckBox("""
             Submitted a correctly signed declaration form.
         """)
 
-        self.print_declaration_btn = QCommandLinkButton("Download declaration form")
+        self.print_declaration_btn = QCommandLinkButton("Print declaration form")
 
         demographic_layout = QHBoxLayout()
         dob_field = FormField("Date of birth", self.dob_edit, Qt.Orientation.Vertical)
@@ -73,9 +91,8 @@ class MemberRegistrationForm(QFrame):
 
         self.employee_details_group = QGroupBox()
         self.employee_details_group.setObjectName("borderless")
-        self.employee_details_group.setHidden(True)
         self.emp_details_layout = QGridLayout(self.employee_details_group)
-        self.emp_details_layout.setContentsMargins(0, 0, 0, 0)
+        self.emp_details_layout.setSpacing(15)
         self.emp_details_layout.addWidget(FormField("ID number", self.id_number_edit), 0, 0)
         self.emp_details_layout.addWidget(FormField("Employee number", self.employee_number_edit), 0, 1)
         self.emp_details_layout.addWidget(FormField("Department", self.department_combo), 1, 0)
@@ -84,12 +101,16 @@ class MemberRegistrationForm(QFrame):
         self.student_details_group = QGroupBox()
         self.student_details_group.setObjectName("borderless")
         self.student_details_layout = QGridLayout(self.student_details_group)
-        self.student_details_layout.setContentsMargins(0, 0, 0, 0)
+        self.student_details_layout.setSpacing(15)
         self.student_details_layout.addWidget(FormField("Admission", self.admission_number_edit), 0, 0)
         self.student_details_layout.addWidget(FormField("NEMIS", self.nemis_number_edit), 0, 1)
         self.student_details_layout.addWidget(FormField("Assessment", self.assessment_number_edit), 0, 2)
         self.student_details_layout.addWidget(FormField("Grade", self.grade_combo), 1, 0)
         self.student_details_layout.addWidget(FormField("Stream", self.stream_combo), 1, 1)
+
+        self.optional_fields = QStackedWidget()
+        self.optional_fields.addWidget(self.student_details_group)
+        self.optional_fields.addWidget(self.employee_details_group)
 
         contacts_layout = QHBoxLayout()
         contacts_layout.addWidget(FormField("Phone", self.phone, Qt.Orientation.Vertical))
@@ -105,12 +126,11 @@ class MemberRegistrationForm(QFrame):
         declaration_layout.addWidget(self.print_declaration_btn)
 
         self.form_layout = QFormLayout()
-        self.form_layout.setSpacing(0)
+        self.form_layout.setSpacing(15)
         self.form_layout.addWidget(self.member_type_options_group)
-        self.form_layout.addRow("Name:", self.name_edit)
+        self.form_layout.addRow("Name: ", self.name_edit)
         self.form_layout.addRow(demographic_layout)
-        self.form_layout.addRow(self.employee_details_group)
-        self.form_layout.addRow(self.student_details_group)
+        self.form_layout.addRow(self.optional_fields)
         self.form_layout.addRow(contacts_layout)
         self.form_layout.addRow(residence_layout)
         self.form_layout.addRow(declaration_layout)
@@ -146,8 +166,6 @@ class MemberRegistrationForm(QFrame):
 
     def re_render(self, btn):
         if btn.text() == "Student":
-            self.student_details_group.setVisible(True)
-            self.employee_details_group.setVisible(False)
+            self.optional_fields.setCurrentIndex(0)
         else:
-            self.student_details_group.setVisible(False)
-            self.employee_details_group.setVisible(True)
+            self.optional_fields.setCurrentIndex(1)

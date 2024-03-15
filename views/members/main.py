@@ -33,6 +33,8 @@ class MembersView(QStackedWidget):
 
         index = QModelIndex(self.members_list_view.table.selectionModel().currentIndex()).siblingAtColumn(0)
 
-    def view_member_profile(self):
+    def view_member_profile(self, id):
         self.setCurrentIndex(2)
+        member = self.members_list_view.members_model.get_member(id)
+        self.member_profile_view.set_member(member)
 

@@ -1,7 +1,8 @@
-from PySide6.QtSql import QSqlQueryModel, QSqlQuery, QSqlTableModel
+from PySide6.QtSql import QSqlQuery, QSqlTableModel
 
 from classes import Department
-from share import db
+
+from database.database import db
 
 
 class DepartmentsModel(QSqlTableModel):
@@ -9,7 +10,9 @@ class DepartmentsModel(QSqlTableModel):
         super(DepartmentsModel, self).__init__()
 
         db.open()
+
         self.select()
+
         self.setEditStrategy(QSqlTableModel.EditStrategy.OnManualSubmit)
 
     def departments(self) -> list[Department]:

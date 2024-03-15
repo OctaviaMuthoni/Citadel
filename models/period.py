@@ -18,12 +18,14 @@ from datetime import datetime
 from PySide6.QtSql import QSqlTableModel, QSqlQuery
 
 from classes import Period
-from share import db
+from database.database import db
 
 
 class PeriodsModel(QSqlTableModel):
     def __init__(self):
         super(PeriodsModel, self).__init__()
+
+        db.open()
 
         self.setTable("periods")
         self.select()

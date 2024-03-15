@@ -4,7 +4,7 @@ from .Bill import Bill
 from .Period import Period
 from .Grade import Grade
 from .Department import Department
-
+from .Member import Member
 
 __all__ = [
     "User",
@@ -12,5 +12,6 @@ __all__ = [
     "Bill",
     "Period",
     "Grade",
-    "Department"
+    "Department",
+    "Member"
 ]

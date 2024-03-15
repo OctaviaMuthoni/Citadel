@@ -85,8 +85,8 @@ QCalendarWidget {
 }
 
 #sub-title {
-    font-size: 12pt;
-    color: #05ADD3;
+    font-size: 13pt;
+    color: #0598A8;
 }
 
 #menu {
@@ -152,16 +152,27 @@ QCalendarWidget {
 
 #push_button {
     font-size: 11pt;
-    background-color: #05ADD3;
+    background-color: #0398A9;
     border-radius: 4px;
     color: #fafafa;
 }
 
-#push_button:hover {
-    background-color: #0598A8;
-    color: #ffffff;
+#push_button::pressed {
+    background-color: #05ADD3;
+    border: 4px solid #5605ADD3;
+    font-size: 10pt;
 }
 
 #error-toast {
     background-color: red;
+}
+
+#borrow-count {
+    font-size: 28pt;
+    border: 6px solid #05ADD6;
+    border-radius: 75px;
+}
+
+#form-field #label {
+    font-weight: 400;
 }

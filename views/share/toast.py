@@ -1,7 +1,8 @@
 import qtawesome as qta
+
 from PySide6.QtCore import Qt, QTimer, QPoint, QPropertyAnimation, QSize
 from PySide6.QtGui import QPalette, QColor
-from PySide6.QtWidgets import QApplication, QLabel, QHBoxLayout, QFrame, QWidget
+from PySide6.QtWidgets import QApplication, QLabel, QHBoxLayout, QWidget
 
 
 class Toast(QWidget):
@@ -54,7 +55,7 @@ class Toast(QWidget):
 
         self.animation.setDuration(200)
         self.animation.setStartValue(QPoint(screen.width() // 2 - self.width() // 2 + 100, -50))
-        self.animation.setEndValue(QPoint(screen.width() // 2 - self.width() // 2 + 100, 50))
+        self.animation.setEndValue(QPoint(screen.width() // 2 - self.width() // 2 + 100, 80))
         self.animation.start()
 
         QTimer.singleShot(2000, self.hide_animation)

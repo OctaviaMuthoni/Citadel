@@ -17,12 +17,12 @@ class FormField(QFrame):
 
         # select layout based on orientation
         layout = QHBoxLayout() if orientation == Qt.Orientation.Horizontal else QVBoxLayout()
-
+        layout.setContentsMargins(0, 0, 0, 0)
         self.label = QLabel(self.name.replace("_", " "))
         self.input_field = input_field
 
         self.label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-
+        self.label.setObjectName("label")
         if show_label:
             layout.addWidget(self.label)
         layout.addWidget(self.input_field)

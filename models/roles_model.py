@@ -1,6 +1,6 @@
 from PySide6.QtSql import QSqlTableModel, QSqlQuery
 
-from share import db
+from database.database import db
 
 
 class RolesModel(QSqlTableModel):
@@ -8,6 +8,7 @@ class RolesModel(QSqlTableModel):
         super(RolesModel, self).__init__()
 
         db.open()
+
         self.setTable("roles")
         self.select()
 

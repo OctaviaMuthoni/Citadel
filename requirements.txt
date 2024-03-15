@@ -4,4 +4,4 @@ pillow~=10.2.0
 africastalking~=1.2.7
 cryptography~=41.0.7
 setuptools~=68.2.2
-barcode~=1.0.4
+python-barcode~=0.15.1

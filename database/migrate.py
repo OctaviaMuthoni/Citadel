@@ -8,7 +8,7 @@ from PySide6.QtWidgets import QApplication
 # establish server connection
 if __name__ == "__main__":
     app = QApplication()
-    from share.database import db
+    from database.database import db
 
     if db.open():
         print("Database connection established successfully")

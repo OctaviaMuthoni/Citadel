@@ -5,7 +5,7 @@ from PySide6.QtCore import QDateTime
 from PySide6.QtSql import QSqlTableModel, QSqlQuery
 
 from classes import User
-from share import db
+from database.database import db
 
 
 class UsersModel(QSqlTableModel):

@@ -1,12 +1,8 @@
-from PySide6.QtCore import QSortFilterProxyModel
 from PySide6.QtSql import QSqlTableModel, QSqlQuery
 
-from share import db
+from classes import Member
+from database.database import db
 from share.exceptions import DatabaseExceptions
-
-from dataclasses import dataclass, field
-from datetime import datetime
-from enum import Enum
 
 
 class MembersModel(QSqlTableModel):
@@ -14,7 +10,6 @@ class MembersModel(QSqlTableModel):
         super(MembersModel, self).__init__()
 
         db.open()
-        print("testing db", db.isOpen())
         self.setTable("students")
         self.select()
 
@@ -41,19 +36,11 @@ class MembersModel(QSqlTableModel):
         qry.bindValue(":member", member_id)
 
         if qry.exec() and qry.next():
-            member_data = {
-                'member_id': qry.value('member_id'),
-                'name': qry.value('name'),
-                'gender': qry.value('gender'),
-                'dob': qry.value('dob'),
-                'phone': qry.value('phone'),
-                'email': qry.value('email'),
-                'residence': qry.value('residence'),
-                'status': qry.value('status'),
-                'profile_image': qry.value('profile_image'),
-                'adm_number': qry.value('id_number')
-            }
-            return Member(**member_data)
+            member_data = {}
+            record = qry.record()
+            for i in range(record.count()):
+                member_data[record.fieldName(i)] = record.value(i)
+            return member_data
         else:
             print("Error retrieving member:", qry.lastError().text())
 
